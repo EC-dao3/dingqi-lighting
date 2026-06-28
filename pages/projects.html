@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Projects - DINGQI</title>
+  <meta name="description" content="Explore architectural lighting projects realized with DINGQI luminaires — hospitality, healthcare, residential, retail, and more.">
+  <link rel="stylesheet" href="../css/main.css">
+  <link rel="stylesheet" href="../css/pages.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <style>
+    .projects-filter-bar { display:flex; align-items:center; justify-content:space-between; padding:24px 0; border-bottom:1px solid var(--color-gray-200); margin-bottom:48px; flex-wrap:wrap; gap:16px; }
+    .projects-masonry { columns:3; column-gap:2px; }
+    .projects-masonry-item { break-inside:avoid; margin-bottom:2px; display:block; position:relative; overflow:hidden; cursor:pointer; }
+    .projects-masonry-item img, .projects-masonry-item .pj-placeholder { width:100%; display:block; transition:transform .8s ease; }
+    .projects-masonry-item:hover img, .projects-masonry-item:hover .pj-placeholder { transform:scale(1.04); }
+    .projects-masonry-item .overlay { position:absolute; inset:0; background:linear-gradient(to top, rgba(0,0,0,.65) 0%, transparent 60%); }
+    .projects-masonry-item .info { position:absolute; bottom:0; left:0; right:0; padding:24px; color:#fff; }
+    .pj-placeholder { display:flex; align-items:center; justify-content:center; }
+    @media(max-width:900px){ .projects-masonry { columns:2; } }
+    @media(max-width:600px){ .projects-masonry { columns:1; } }
+  </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav class="nav scrolled" id="mainNav">
+  <a href="../index.html" class="nav__logo" ><img src="../logo.gif" alt="DINGQI"></a>
+  <ul class="nav__links">
+    <li><a href="products.html" class="nav__link">Products</a></li>
+    <li><a href="projects.html" class="nav__link active">Projects</a></li>
+    <li><a href="journal.html" class="nav__link">Journal</a></li>
+    <li><a href="about.html" class="nav__link">About Us</a></li>
+    <li><a href="contact.html" class="nav__link">Contact</a></li>
+  </ul>
+  <div class="nav__actions">
+    <button class="nav__search-btn"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="11" cy="11" r="7"/><line x1="16.5" y1="16.5" x2="22" y2="22"/></svg></button>
+    <button class="nav__menu-btn" aria-label="Menu"><svg width="20" height="14" viewBox="0 0 20 14" fill="none" stroke="currentColor" stroke-width="1.5"><line x1="0" y1="1" x2="20" y2="1"/><line x1="0" y1="7" x2="20" y2="7"/><line x1="0" y1="13" x2="20" y2="13"/></svg></button>
+  </div>
+</nav>
+
+
+
+<!-- PAGE HERO -->
+<div class="page-hero" style="padding-top:calc(72px + 64px);">
+  <div class="container">
+    <p class="page-hero__eyebrow">Realized Spaces</p>
+    <h1 class="page-hero__title">Lighting Projects</h1>
+    <p class="page-hero__sub">A selection of interior and architectural projects where DINGQI luminaires were used to create atmosphere, comfort and precision.</p>
+  </div>
+</div>
+
+<!-- FILTER BAR -->
+<div class="container">
+  <div class="projects-filter-bar">
+    <div data-filter-group style="display:flex; gap:8px; flex-wrap:wrap;">
+      <button class="filter-btn active">All</button>
+      <button class="filter-btn">Hospitality</button>
+      <button class="filter-btn">Healthcare</button>
+      <button class="filter-btn">Residential</button>
+      <button class="filter-btn">Office</button>
+      <button class="filter-btn">Retail</button>
+      <button class="filter-btn">Education</button>
+      <button class="filter-btn">Outdoor</button>
+    </div>
+    <span style="font-size:12px; color:var(--color-gray-400);">Showing 18 projects</span>
+  </div>
+</div>
+
+<!-- PROJECTS MASONRY -->
+<div class="container--wide">
+  <div class="projects-masonry">
+
+    <!-- 1: Hotel Bécquer (tall) -->
+    <a href="project-detail.html" class="projects-masonry-item">
+      <div class="pj-placeholder pj-bg-1" style="height:520px;">
+        <svg width="80" height="80" viewBox="0 0 80 80" fill="none" opacity="0.2">
+          <rect x="10" y="10" width="60" height="60" stroke="#c8a96e" stroke-width="1.5"/>
+          <line x1="10" y1="40" x2="70" y2="40" stroke="#c8a96e" stroke-width="1"/>
+          <circle cx="40" cy="40" r="10" stroke="#c8a96e" stroke-width="1.5"/>
+        </svg>
+      </div>
+      <div class="overlay"></div>
+      <div class="info">
+        <p style="font-size:10px;font-weight:600;letter-spacing:.15em;text-transform:uppercase;color:var(--color-accent);margin-bottom:8px;">Hospitality</p>
+        <h3 style="font-family:var(--font-serif);font-size:24px;font-weight:400;">Hotel Bécquer</h3>
+        <p style="font-size:12px;color:rgba(255,255,255,.6);margin-top:4px;">Seville, Spain</p>
+      </div>
+    </a>
+
+    <!-- 2: Dentop Clinic (medium) -->
+    <a href="project-detail.html" class="projects-masonry-item">
+      <div class="pj-placeholder pj-bg-2" style="height:340px;">
+        <svg width="70" height="70" viewBox="0 0 70 70" fill="none" opacity="0.2">
+          <path d="M35 5 L65 60 L5 60 Z" stroke="#c8a96e" stroke-width="1.5" fill="none"/>
+        </svg>
+      </div>
+      <div class="overlay"></div>
+      <div class="info">
+        <p style="font-size:10px;font-weight:600;letter-spacing:.15em;text-transform:uppercase;color:var(--color-accent);margin-bottom:8px;">Healthcare</p>
+        <h3 style="font-family:var(--font-serif);font-size:22px;font-weight:400;">Dentop Clinic</h3>
+        <p style="font-size:12px;color:rgba(255,255,255,.6);margin-top:4px;">Bucharest, Romania</p>
+      </div>
+    </a>
+
+    <!-- 3: ChiroHype GmbH -->
+    <a href="project-detail.html" class="projects-masonry-item">
+      <div class="pj-placeholder pj-bg-3" style="height:400px;">
+        <svg width="70" height="70" viewBox="0 0 70 70" fill="none" opacity="0.2">
+          <rect x="15" y="15" width="40" height="40" stroke="#c8a96e" stroke-width="1.5"/>
+          <rect x="22" y="22" width="26" height="26" stroke="#c8a96e" stroke-width="1"/>
+        </svg>
+      </div>
+      <div class="overlay"></div>
+      <div class="info">
+        <p style="font-size:10px;font-weight:600;letter-spacing:.15em;text-transform:uppercase;color:var(--color-accent);margin-bottom:8px;">Office</p>
+        <h3 style="font-family:var(--font-serif);font-size:22px;font-weight:400;">ChiroHype GmbH</h3>
+        <p style="font-size:12px;color:rgba(255,255,255,.6);margin-top:4px;">Germany</p>
+      </div>
+    </a>
+
+    <!-- 4: Casa Duna -->
+    <a href="project-detail.html" class="projects-masonry-item">
+      <div class="pj-placeholder pj-bg-4" style="height:380px;">
+        <svg width="70" height="70" viewBox="0 0 70 70" fill="none" opacity="0.2">
+          <path d="M35 10 L60 35 L35 60 L10 35 Z" stroke="#c8a96e" stroke-width="1.5" fill="none"/>
+        </svg>
+      </div>
+      <div class="overlay"></div>
+      <div class="info">
+        <p style="font-size:10px;font-weight:600;letter-spacing:.15em;text-transform:uppercase;color:var(--color-accent);margin-bottom:8px;">Residential</p>
+        <h3 style="font-family:var(--font-serif);font-size:22px;font-weight:400;">Casa Duna</h3>
+        <p style="font-size:12px;color:rgba(255,255,255,.6);margin-top:4px;">Alicante, Spain</p>
+      </div>
+    </a>
+
+    <!-- 5: GEMÜ Holding -->
+    <a href="project-detail.html" class="projects-masonry-item">
+      <div class="pj-placeholder pj-bg-5" style="height:460px;">
+        <svg width="70" height="70" viewBox="0 0 70 70" fill="none" opacity="0.2">
+          <circle cx="35" cy="35" r="25" stroke="#c8a96e" stroke-width="1.5"/>
+          <circle cx="35" cy="35" r="12" stroke="#c8a96e" stroke-width="1"/>
+        </svg>
+      </div>
+      <div class="overlay"></div>
+      <div class="info">
+        <p style="font-size:10px;font-weight:600;letter-spacing:.15em;text-transform:uppercase;color:var(--color-accent);margin-bottom:8px;">Office</p>
+        <h3 style="font-family:var(--font-serif);font-size:22px;font-weight:400;">GEMÜ Holding GmbH</h3>
+        <p style="font-size:12px;color:rgba(255,255,255,.6);margin-top:4px;">Germany</p>
+      </div>
+    </a>
+
+    <!-- 6: Roca Flagship -->
+    <a href="project-detail.html" class="projects-masonry-item">
+      <div class="pj-placeholder pj-bg-6" style="height:350px;">
+        <svg width="70" height="70" viewBox="0 0 70 70" fill="none" opacity="0.2">
+          <polygon points="35,8 62,28 52,60 18,60 8,28" stroke="#c8a96e" stroke-width="1.5" fill="none"/>
+        </svg>
+      </div>
+      <div class="overlay"></div>
+      <div class="info">
+        <p style="font-size:10px;font-weight:600;letter-spacing:.15em;text-transform:uppercase;color:var(--color-accent);margin-bottom:8px;">Retail</p>
+        <h3 style="font-family:var(--font-serif);font-size:22px;font-weight:400;">Roca Flagship</h3>
+        <p style="font-size:12px;color:rgba(255,255,255,.6);margin-top:4px;">Barcelona, Spain</p>
+      </div>
+    </a>
+
+    <!-- 7: Catholic University -->
+    <a href="project-detail.html" class="projects-masonry-item">
+      <div class="pj-placeholder pj-bg-1" style="height:500px; filter:hue-rotate(30deg);">
+        <svg width="70" height="70" viewBox="0 0 70 70" fill="none" opacity="0.2">
+          <line x1="10" y1="10" x2="60" y2="60" stroke="#c8a96e" stroke-width="1.5"/>
+          <line x1="60" y1="10" x2="10" y2="60" stroke="#c8a96e" stroke-width="1.5"/>
+          <circle cx="35" cy="35" r="18" stroke="#c8a96e" stroke-width="1.5"/>
+        </svg>
+      </div>
+      <div class="overlay"></div>
+      <div class="info">
+        <p style="font-size:10px;font-weight:600;letter-spacing:.15em;text-transform:uppercase;color:var(--color-accent);margin-bottom:8px;">Education</p>
+        <h3 style="font-family:var(--font-serif);font-size:22px;font-weight:400;">Catholic University</h3>
+        <p style="font-size:12px;color:rgba(255,255,255,.6);margin-top:4px;">Valencia, Spain</p>
+      </div>
+    </a>
+
+    <!-- 8: Casa Pujol -->
+    <a href="project-detail.html" class="projects-masonry-item">
+      <div class="pj-placeholder" style="height:320px; background:linear-gradient(135deg,#2a1810,#3a2818);">
+        <svg width="60" height="60" viewBox="0 0 60 60" fill="none" opacity="0.2">
+          <path d="M30 5 L55 50 L5 50 Z" stroke="#c8a96e" stroke-width="1.5" fill="none"/>
+          <path d="M30 15 L48 45 L12 45 Z" stroke="#c8a96e" stroke-width="1" fill="none"/>
+        </svg>
+      </div>
+      <div class="overlay"></div>
+      <div class="info">
+        <p style="font-size:10px;font-weight:600;letter-spacing:.15em;text-transform:uppercase;color:var(--color-accent);margin-bottom:8px;">Residential</p>
+        <h3 style="font-family:var(--font-serif);font-size:22px;font-weight:400;">Casa Pujol</h3>
+        <p style="font-size:12px;color:rgba(255,255,255,.6);margin-top:4px;">Barcelona, Spain</p>
+      </div>
+    </a>
+
+    <!-- 9: Jenkins (tall) -->
+    <a href="project-detail.html" class="projects-masonry-item">
+      <div class="pj-placeholder" style="height:480px; background:linear-gradient(135deg,#e8f8e8,#d0ead0);">
+        <svg width="70" height="70" viewBox="0 0 70 70" fill="none" opacity="0.25">
+          <rect x="5" y="5" width="60" height="60" rx="8" stroke="#2d6a2d" stroke-width="1.5"/>
+          <rect x="15" y="15" width="40" height="40" rx="4" stroke="#2d6a2d" stroke-width="1"/>
+        </svg>
+      </div>
+      <div class="overlay"></div>
+      <div class="info">
+        <p style="font-size:10px;font-weight:600;letter-spacing:.15em;text-transform:uppercase;color:var(--color-accent);margin-bottom:8px;">Retail</p>
+        <h3 style="font-family:var(--font-serif);font-size:22px;font-weight:400;">Jenkin's</h3>
+        <p style="font-size:12px;color:rgba(255,255,255,.6);margin-top:4px;">Madrid, Spain</p>
+      </div>
+    </a>
+
+    <!-- 10: Raymat Castle -->
+    <a href="project-detail.html" class="projects-masonry-item">
+      <div class="pj-placeholder" style="height:360px; background:linear-gradient(135deg,#0a1628,#1a2838);">
+        <svg width="70" height="70" viewBox="0 0 70 70" fill="none" opacity="0.2">
+          <path d="M35 8 C20 8 8 20 8 35 C8 50 20 62 35 62 C50 62 62 50 62 35 C62 20 50 8 35 8 Z" stroke="#c8a96e" stroke-width="1.5"/>
+          <path d="M35 18 C25 18 18 25 18 35 C18 45 25 52 35 52" stroke="#c8a96e" stroke-width="1" stroke-dasharray="3 3"/>
+        </svg>
+      </div>
+      <div class="overlay"></div>
+      <div class="info">
+        <p style="font-size:10px;font-weight:600;letter-spacing:.15em;text-transform:uppercase;color:var(--color-accent);margin-bottom:8px;">Heritage</p>
+        <h3 style="font-family:var(--font-serif);font-size:22px;font-weight:400;">Raymat Castle</h3>
+        <p style="font-size:12px;color:rgba(255,255,255,.6);margin-top:4px;">Lleida, Spain</p>
+      </div>
+    </a>
+
+    <!-- 11: G01 Villa -->
+    <a href="project-detail.html" class="projects-masonry-item">
+      <div class="pj-placeholder" style="height:400px; background:linear-gradient(135deg,#1e1e2e,#2e2e3e);">
+        <svg width="70" height="70" viewBox="0 0 70 70" fill="none" opacity="0.2">
+          <path d="M10 50 L35 10 L60 50" stroke="#c8a96e" stroke-width="1.5" fill="none"/>
+          <rect x="22" y="36" width="26" height="14" stroke="#c8a96e" stroke-width="1"/>
+        </svg>
+      </div>
+      <div class="overlay"></div>
+      <div class="info">
+        <p style="font-size:10px;font-weight:600;letter-spacing:.15em;text-transform:uppercase;color:var(--color-accent);margin-bottom:8px;">Residential</p>
+        <h3 style="font-family:var(--font-serif);font-size:22px;font-weight:400;">G01 Residential Villa</h3>
+        <p style="font-size:12px;color:rgba(255,255,255,.6);margin-top:4px;">United Arab Emirates</p>
+      </div>
+    </a>
+
+    <!-- 12: Bākkō -->
+    <a href="project-detail.html" class="projects-masonry-item">
+      <div class="pj-placeholder" style="height:440px; background:linear-gradient(135deg,#1a0e06,#2a1e10);">
+        <svg width="70" height="70" viewBox="0 0 70 70" fill="none" opacity="0.2">
+          <line x1="35" y1="5" x2="35" y2="65" stroke="#c8a96e" stroke-width="1.5"/>
+          <line x1="5" y1="35" x2="65" y2="35" stroke="#c8a96e" stroke-width="1.5"/>
+          <circle cx="35" cy="35" r="20" stroke="#c8a96e" stroke-width="1"/>
+        </svg>
+      </div>
+      <div class="overlay"></div>
+      <div class="info">
+        <p style="font-size:10px;font-weight:600;letter-spacing:.15em;text-transform:uppercase;color:var(--color-accent);margin-bottom:8px;">Restaurant</p>
+        <h3 style="font-family:var(--font-serif);font-size:22px;font-weight:400;">Bākkō</h3>
+        <p style="font-size:12px;color:rgba(255,255,255,.6);margin-top:4px;">Tokyo, Japan</p>
+      </div>
+    </a>
+
+  </div>
+
+  <!-- Load More -->
+  <div style="text-align:center; padding:60px 40px 80px;">
+    <button class="btn btn--outline-black" style="padding:14px 48px;">
+      Load More Projects
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><polyline points="6 9 12 15 18 9"/></svg>
+    </button>
+  </div>
+</div>
+
+<!-- NEWSLETTER -->
+<div class="newsletter">
+  <div class="container">
+    <h2 class="newsletter__title">Stay in the Light</h2>
+    <p class="newsletter__sub">News, product launches, projects and lighting inspiration.</p>
+    <form class="newsletter__form">
+      <input type="email" class="newsletter__input" placeholder="Your email address">
+      <button type="submit" class="newsletter__submit">Subscribe</button>
+    </form>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer class="footer">
+  <div class="container">
+    <div class="footer__grid">
+      <div class="footer__brand">
+        <span class="nav__logo"><img src="../logo.gif" alt="DINGQI"></span>
+        <p>Professional technical lighting since 1984.</p>
+        <div class="footer__social">
+          <a href="#"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="5"/></svg></a>
+          <a href="#"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M16 8a6 6 0 016 6v7h-4v-7a2 2 0 00-2-2 2 2 0 00-2 2v7h-4v-7a6 6 0 016-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg></a>
+        </div>
+      </div>
+      <div><p class="footer__col-title">Products</p><ul class="footer__links"><li><a href="products.html">Recessed</a></li><li><a href="products.html">Surface</a></li><li><a href="products.html">Suspension</a></li><li><a href="products.html">Track Systems</a></li></ul></div>
+      <div><p class="footer__col-title">Company</p><ul class="footer__links"><li><a href="about.html">About Us</a></li><li><a href="about.html">Awards</a></li><li><a href="contact.html">Contact</a></li></ul></div>
+      <div><p class="footer__col-title">Resources</p><ul class="footer__links"><li><a href="#">iCatalogue</a></li><li><a href="#">BIM Files</a></li><li><a href="journal.html">Journal</a></li></ul></div>
+    </div>
+    <div class="footer__bottom">
+      <p class="footer__copy">© 2025 DINGQI Lighting Technology Co., Ltd. All rights reserved.</p>
+      <div class="footer__legal"><a href="#">Privacy Policy</a><a href="#">Cookie Policy</a><a href="#">Legal Notice</a></div>
+    </div>
+  </div>
+</footer>
+
+<div class="cookie-bar"><p>We use cookies to improve your experience. <a href="#">Cookie Policy</a>.</p><div class="cookie-bar__actions"><button class="btn btn--outline-white cookie-decline" style="padding:10px 20px;font-size:11px;">Decline</button><button class="btn btn--white cookie-accept" style="padding:10px 20px;font-size:11px;color:#000;">Accept</button></div></div>
+<div class="search-overlay"><div class="search-overlay__inner"><div class="search-overlay__input-wrap"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#999" stroke-width="1.5"><circle cx="11" cy="11" r="7"/><line x1="16.5" y1="16.5" x2="22" y2="22"/></svg><input type="text" class="search-overlay__input" placeholder="Search projects..."><button class="search-overlay__close">✕</button></div><p class="search-overlay__hint">Press ESC to close</p></div></div>
+
+<script src="../js/main.js"></script>
+</body>
+</html>
