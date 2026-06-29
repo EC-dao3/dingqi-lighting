@@ -204,11 +204,11 @@ button { border: none; background: none; cursor: pointer; font-family: inherit; 
 }
 
 /* Fallback solid bg when no image */
-.hero__slide--bg1 { background: linear-gradient(135deg, #1a1a2e 0%, #16213e 40%, #0f3460 100%); }
-.hero__slide--bg2 { background: linear-gradient(135deg, #1c1c1c 0%, #2d2d2d 50%, #1a1a1a 100%); }
-.hero__slide--bg3 { background: linear-gradient(135deg, #0d1b2a 0%, #1b2838 50%, #2d3a4a 100%); }
-.hero__slide--bg4 { background: linear-gradient(135deg, #1a0a00 0%, #2d1a0a 50%, #1a1a1a 100%); }
-.hero__slide--bg5 { background: linear-gradient(135deg, #0a1628 0%, #1a2b3c 50%, #0d1b2a 100%); }
+.hero__slide--bg1 { background: url(../images/hero/hero-1.jpg) center/cover no-repeat; }
+.hero__slide--bg2 { background: url(../images/hero/hero-2.jpg) center/cover no-repeat; }
+.hero__slide--bg3 { background: url(../images/hero/hero-3.jpg) center/cover no-repeat; }
+.hero__slide--bg4 { background: url(../images/hero/hero-4.jpg) center/cover no-repeat; }
+.hero__slide--bg5 { background: url(../images/hero/hero-5.png) center/cover no-repeat; }
 
 .hero__content {
   position: absolute;
