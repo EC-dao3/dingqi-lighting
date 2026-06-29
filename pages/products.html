@@ -9,7 +9,7 @@
   <link rel="stylesheet" href="../css/pages.css">
   <style>
     /* ===== CATEGORY GRID ===== */
-    .cat-grid { display:grid; grid-template-columns:repeat(3, 1fr); gap:2px; }
+    .cat-grid { display:grid; grid-template-columns:repeat(2, 1fr); gap:2px; }
     .cat-card { position:relative; aspect-ratio:16/9; display:flex; align-items:flex-end; overflow:hidden; cursor:pointer; text-decoration:none; color:inherit; transition:box-shadow .3s; min-height:300px; }
     .cat-card:hover { box-shadow:0 12px 40px rgba(0,0,0,.15); z-index:2; }
     .cat-card--active { outline:2px solid var(--color-accent); outline-offset:-2px; }
@@ -123,7 +123,7 @@
 
 <!-- HEADER -->
 <div style="padding:120px 40px 40px; max-width:1400px; margin:0 auto;">
-  <p class="section__eyebrow">6 Categories &bull; 95 Series &bull; 270 Models</p>
+  <p class="section__eyebrow">4 Categories &bull; 20 Series &bull; 53 Models</p>
   <h1 style="font-family:var(--font-serif);font-size:clamp(36px,6vw,56px);font-weight:300;margin:0 0 12px;">Complete Product Catalog</h1>
   <p style="max-width:600px;font-size:15px;color:var(--color-gray-500);line-height:1.7;">Browse our full range of professional LED lighting. Click a category to explore series, then select a model for detailed specifications, photos, and accessories.</p>
 </div>
@@ -136,71 +136,50 @@
 <!-- CATEGORY GRID -->
 <div class="cat-grid" id="catGrid" style="padding:0 40px 80px; max-width:1400px; margin:0 auto;">
 
-  <!-- 1. Embedded LED Tubelamp -->
+  <!-- 1. Recessed LED Downlight -->
   <div class="cat-card" data-cat="0" onclick="showSeries(0,'cat')">
     <div class="cat-card__bg" style="background:linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);"></div>
     <div class="cat-card__info">
       <div class="cat-card__num">01</div>
-      <div class="cat-card__name">Embedded LED Tubelamp</div>
-      <div class="cat-card__count">51 series &bull; 153 models</div>
-      <span class="cat-card__arrow">View Series <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></span>
-    </div>
-  </div>
-
-  <!-- 2. Surface Mounted LED Downlight -->
-  <div class="cat-card" data-cat="1" onclick="showSeries(1,'cat')">
-    <div class="cat-card__bg" style="background:linear-gradient(135deg, #2d1b2e 0%, #1a1a2e 50%, #162447 100%);"></div>
-    <div class="cat-card__info">
-      <div class="cat-card__num">02</div>
-      <div class="cat-card__name">Surface Mounted LED<br>Downlight</div>
-      <div class="cat-card__count">15 series &bull; 43 models</div>
-      <span class="cat-card__arrow">View Series <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></span>
-    </div>
-  </div>
-
-  <!-- 3. Fixed LED Track Lamp -->
-  <div class="cat-card" data-cat="2" onclick="showSeries(2,'cat')">
-    <div class="cat-card__bg" style="background:linear-gradient(135deg, #1a2a1a 0%, #162d16 50%, #0f340f 100%);"></div>
-    <div class="cat-card__info">
-      <div class="cat-card__num">03</div>
-      <div class="cat-card__name">Fixed LED Track Lamp</div>
-      <div class="cat-card__count">12 series &bull; 33 models</div>
-      <span class="cat-card__arrow">View Series <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></span>
-    </div>
-  </div>
-
-  <!-- 4. Magnetic LED Lamps -->
-  <div class="cat-card" data-cat="3" onclick="showSeries(3,'cat')">
-    <div class="cat-card__bg" style="background:linear-gradient(135deg, #2a1a1a 0%, #2d1616 50%, #340f0f 100%);"></div>
-    <div class="cat-card__info">
-      <div class="cat-card__num">04</div>
-      <div class="cat-card__name">Magnetic LED Lamps</div>
+      <div class="cat-card__name">Recessed LED<br>Downlight</div>
       <div class="cat-card__count">5 series &bull; 13 models</div>
       <span class="cat-card__arrow">View Series <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></span>
     </div>
   </div>
 
-  <!-- 5. Decorative Auxiliary Luminaires -->
-  <div class="cat-card" data-cat="4" onclick="showSeries(4,'cat')">
-    <div class="cat-card__bg" style="background:linear-gradient(135deg, #2a1f1a 0%, #3d2b1f 50%, #4a3528 100%);"></div>
+  <!-- 2. Surface Mount LED Downlight -->
+  <div class="cat-card" data-cat="1" onclick="showSeries(1,'cat')">
+    <div class="cat-card__bg" style="background:linear-gradient(135deg, #2d1b2e 0%, #1a1a2e 50%, #162447 100%);"></div>
     <div class="cat-card__info">
-      <div class="cat-card__num">05</div>
-      <div class="cat-card__name">Decorative Auxiliary<br>Luminaires</div>
-      <div class="cat-card__count">9 series &bull; 19 models</div>
+      <div class="cat-card__num">02</div>
+      <div class="cat-card__name">Surface Mount LED<br>Downlight</div>
+      <div class="cat-card__count">5 series &bull; 14 models</div>
       <span class="cat-card__arrow">View Series <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></span>
     </div>
   </div>
 
-  <!-- 6. LED Strip Light -->
-  <div class="cat-card" data-cat="5" onclick="showSeries(5,'cat')">
-    <div class="cat-card__bg" style="background:linear-gradient(135deg, #1a2a3a 0%, #1f3a4f 50%, #0f3a5a 100%);"></div>
+  <!-- 3. Fixed LED Track Light -->
+  <div class="cat-card" data-cat="2" onclick="showSeries(2,'cat')">
+    <div class="cat-card__bg" style="background:linear-gradient(135deg, #1a2a1a 0%, #162d16 50%, #0f340f 100%);"></div>
     <div class="cat-card__info">
-      <div class="cat-card__num">06</div>
-      <div class="cat-card__name">LED Strip Light</div>
-      <div class="cat-card__count">3 series &bull; 9 models</div>
+      <div class="cat-card__num">03</div>
+      <div class="cat-card__name">Fixed LED Track Light</div>
+      <div class="cat-card__count">5 series &bull; 13 models</div>
       <span class="cat-card__arrow">View Series <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></span>
     </div>
   </div>
+
+  <!-- 4. Magnetic LED Light -->
+  <div class="cat-card" data-cat="3" onclick="showSeries(3,'cat')">
+    <div class="cat-card__bg" style="background:linear-gradient(135deg, #2a1a1a 0%, #2d1616 50%, #340f0f 100%);"></div>
+    <div class="cat-card__info">
+      <div class="cat-card__num">04</div>
+      <div class="cat-card__name">Magnetic LED Light</div>
+      <div class="cat-card__count">5 series &bull; 13 models</div>
+      <span class="cat-card__arrow">View Series <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></span>
+    </div>
+  </div>
+
 </div>
 
 <!-- SERIES SECTION (shown after clicking a category) -->
@@ -241,12 +220,10 @@
         <p>DINGQI — Professional LED lighting manufacturer. High-quality architectural and commercial lighting solutions.</p>
       </div>
       <div><p class="footer__col-title">Products</p><ul class="footer__links">
-        <li><a href="products.html">Embedded LED Tubelamp</a></li>
-        <li><a href="products.html">Surface Mounted LED Downlight</a></li>
-        <li><a href="products.html">Fixed LED Track Lamp</a></li>
-        <li><a href="products.html">Magnetic LED Lamps</a></li>
-        <li><a href="products.html">Decorative Auxiliary Luminaires</a></li>
-        <li><a href="products.html">LED Strip Light</a></li>
+        <li><a href="products.html">Recessed LED Downlight</a></li>
+        <li><a href="products.html">Surface Mount LED Downlight</a></li>
+        <li><a href="products.html">Fixed LED Track Light</a></li>
+        <li><a href="products.html">Magnetic LED Light</a></li>
       </ul></div>
       <div><p class="footer__col-title">Company</p><ul class="footer__links"><li><a href="about.html">About Us</a></li><li><a href="projects.html">Projects</a></li><li><a href="journal.html">Journal</a></li><li><a href="contact.html">Contact</a></li></ul></div>
       <div><p class="footer__col-title">Contact</p><p style="font-size:12px;color:rgba(255,255,255,.4);line-height:1.8;">DINGQI Lighting<br>No.1 Xinjian Road, Henglan Town<br>Zhongshan, Guangdong, China</p></div>
@@ -263,6 +240,13 @@
 // ===== STATE =====
 let currentCat = -1;
 let currentSeries = -1;
+
+// ===== HELPER: Get correct image URL (handles both network URLs and local paths) =====
+function getImgUrl(url) {
+  if (!url) return '';
+  if (url.startsWith('http://') || url.startsWith('https://')) return url;
+  return '../' + url;
+}
 
 // ===== CATEGORY → SERIES =====
 function showSeries(catIdx, from) {
@@ -288,7 +272,7 @@ function showSeries(catIdx, from) {
     const thumbImg = s.models[0]?.realImg || '';
     return `
     <div class="series-card" onclick="showModels(${si})">
-      <img class="series-card__thumb" src="../${thumbImg}" alt="${s.name}" loading="lazy" onerror="this.style.display='none'">
+      <img class="series-card__thumb" src="${getImgUrl(thumbImg)}" alt="${s.name}" loading="lazy" onerror="this.style.display='none'">
       <p class="series-card__name">${s.name}</p>
       <p class="series-card__desc">${s.desc}</p>
       <p class="series-card__models">${s.models.length} models</p>
@@ -319,7 +303,7 @@ function showModels(sIdx) {
     const firstParams = m.params.slice(1, 4).map(p => `<span>${p.value}</span>`).join('');
     return `
     <div class="model-card" onclick="openModal(${mi})">
-      <img class="model-card__img" src="../${m.realImg}" alt="${m.name}" loading="lazy" onerror="this.src='data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 width=%22200%22 height=%22160%22><rect fill=%22%23f0f0f0%22 width=%22200%22 height=%22160%22/><text x=%22100%22 y=%2285%22 text-anchor=%22middle%22 fill=%22%23999%22 font-size=%2212%22>${encodeURIComponent(m.name)}</text></svg>'">
+      <img class="model-card__img" src="${getImgUrl(m.realImg)}" alt="${m.name}" loading="lazy" onerror="this.src='data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 width=%22200%22 height=%22160%22><rect fill=%22%23f0f0f0%22 width=%22200%22 height=%22160%22/><text x=%22100%22 y=%2285%22 text-anchor=%22middle%22 fill=%22%23999%22 font-size=%2212%22>${encodeURIComponent(m.name)}</text></svg>'">
       <div class="model-card__body">
         <p class="model-card__id">${m.id}</p>
         <p class="model-card__name">${m.name}</p>
@@ -353,10 +337,10 @@ function openModal(mIdx) {
   document.getElementById('modal').innerHTML = `
     <button class="modal__close" onclick="closeModal()">&times;</button>
     <div class="modal__img-section" id="modalImgSection">
-      <img class="modal__img" id="modalImg" src="../${model.realImg}" alt="${model.name}" onerror="this.src='data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 width=%22400%22 height=%22360%22><rect fill=%22%23f0f0f0%22 width=%22400%22 height=%22360%22/><text x=%22200%22 y=%22185%22 text-anchor=%22middle%22 fill=%22%23999%22 font-size=%2214%22>Image not available</text></svg>'">
+      <img class="modal__img" id="modalImg" src="${getImgUrl(model.realImg)}" alt="${model.name}" onerror="this.src='data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 width=%22400%22 height=%22360%22><rect fill=%22%23f0f0f0%22 width=%22400%22 height=%22360%22/><text x=%22200%22 y=%22185%22 text-anchor=%22middle%22 fill=%22%23999%22 font-size=%2214%22>Image not available</text></svg>'">
       <div class="modal__img-toggle">
-        <button class="active" data-mode="real" onclick="switchImage('real','../${model.realImg}')">Real Photo</button>
-        <button data-mode="line" onclick="switchImage('line','../${model.lineImg}')">Line Drawing</button>
+        <button class="active" data-mode="real" onclick="switchImage('real','${getImgUrl(model.realImg)}')">Real Photo</button>
+        <button data-mode="line" onclick="switchImage('line','${getImgUrl(model.lineImg)}')">Line Drawing</button>
       </div>
     </div>
     <div class="modal__body">
