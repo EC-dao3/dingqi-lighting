@@ -1131,6 +1131,7 @@ button { border: none; background: none; cursor: pointer; font-family: inherit; 
    FOOTER
    ============================================ */
 .footer {
+  width: 100%;
   background: var(--color-black);
   color: var(--color-white);
   padding: 80px 0 40px;
@@ -1274,6 +1275,7 @@ button { border: none; background: none; cursor: pointer; font-family: inherit; 
    NEWSLETTER STRIP
    ============================================ */
 .newsletter {
+  width: 100%;
   background: var(--color-black);
   color: var(--color-white);
   padding: 72px 0;
