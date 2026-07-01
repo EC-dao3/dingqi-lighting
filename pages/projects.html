@@ -28,13 +28,12 @@
   <a href="../index.html" class="nav__logo" ><img src="../logo.gif" alt="DINGQI"></a>
   <ul class="nav__links">
     <li><a href="products.html" class="nav__link">Products</a></li>
-    <li><a href="projects.html" class="nav__link active">Projects</a></li>
-    <li><a href="journal.html" class="nav__link">Journal</a></li>
-    <li><a href="about.html" class="nav__link">About Us</a></li>
+    <li><a href="projects.html" class="nav__link active">Projects</a></li>    <li><a href="about.html" class="nav__link">About Us</a></li>
     <li><a href="contact.html" class="nav__link">Contact</a></li>
   </ul>
   <div class="nav__actions">
     <button class="nav__search-btn"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="11" cy="11" r="7"/><line x1="16.5" y1="16.5" x2="22" y2="22"/></svg></button>
+    <span class="nav__auth"></span>
     <button class="nav__menu-btn" aria-label="Menu"><svg width="20" height="14" viewBox="0 0 20 14" fill="none" stroke="currentColor" stroke-width="1.5"><line x1="0" y1="1" x2="20" y2="1"/><line x1="0" y1="7" x2="20" y2="7"/><line x1="0" y1="13" x2="20" y2="13"/></svg></button>
   </div>
 </nav>
@@ -53,224 +52,14 @@
 <!-- FILTER BAR -->
 <div class="container">
   <div class="projects-filter-bar">
-    <div data-filter-group style="display:flex; gap:8px; flex-wrap:wrap;">
-      <button class="filter-btn active">All</button>
-      <button class="filter-btn">Hospitality</button>
-      <button class="filter-btn">Healthcare</button>
-      <button class="filter-btn">Residential</button>
-      <button class="filter-btn">Office</button>
-      <button class="filter-btn">Retail</button>
-      <button class="filter-btn">Education</button>
-      <button class="filter-btn">Outdoor</button>
-    </div>
-    <span style="font-size:12px; color:var(--color-gray-400);">Showing 18 projects</span>
+    <span style="font-size:12px; color:var(--color-gray-400);">Showing <span id="projShowingCount">12</span> projects</span>
   </div>
 </div>
 
 <!-- PROJECTS MASONRY -->
 <div class="container--wide">
-  <div class="projects-masonry">
-
-    <!-- 1: Hotel Bécquer (tall) -->
-    <a href="project-detail.html" class="projects-masonry-item">
-      <div class="pj-placeholder pj-bg-1" style="height:520px;">
-        <svg width="80" height="80" viewBox="0 0 80 80" fill="none" opacity="0.2">
-          <rect x="10" y="10" width="60" height="60" stroke="#c8a96e" stroke-width="1.5"/>
-          <line x1="10" y1="40" x2="70" y2="40" stroke="#c8a96e" stroke-width="1"/>
-          <circle cx="40" cy="40" r="10" stroke="#c8a96e" stroke-width="1.5"/>
-        </svg>
-      </div>
-      <div class="overlay"></div>
-      <div class="info">
-        <p style="font-size:10px;font-weight:600;letter-spacing:.15em;text-transform:uppercase;color:var(--color-accent);margin-bottom:8px;">Hospitality</p>
-        <h3 style="font-family:var(--font-serif);font-size:24px;font-weight:400;">Hotel Bécquer</h3>
-        <p style="font-size:12px;color:rgba(255,255,255,.6);margin-top:4px;">Seville, Spain</p>
-      </div>
-    </a>
-
-    <!-- 2: Dentop Clinic (medium) -->
-    <a href="project-detail.html" class="projects-masonry-item">
-      <div class="pj-placeholder pj-bg-2" style="height:340px;">
-        <svg width="70" height="70" viewBox="0 0 70 70" fill="none" opacity="0.2">
-          <path d="M35 5 L65 60 L5 60 Z" stroke="#c8a96e" stroke-width="1.5" fill="none"/>
-        </svg>
-      </div>
-      <div class="overlay"></div>
-      <div class="info">
-        <p style="font-size:10px;font-weight:600;letter-spacing:.15em;text-transform:uppercase;color:var(--color-accent);margin-bottom:8px;">Healthcare</p>
-        <h3 style="font-family:var(--font-serif);font-size:22px;font-weight:400;">Dentop Clinic</h3>
-        <p style="font-size:12px;color:rgba(255,255,255,.6);margin-top:4px;">Bucharest, Romania</p>
-      </div>
-    </a>
-
-    <!-- 3: ChiroHype GmbH -->
-    <a href="project-detail.html" class="projects-masonry-item">
-      <div class="pj-placeholder pj-bg-3" style="height:400px;">
-        <svg width="70" height="70" viewBox="0 0 70 70" fill="none" opacity="0.2">
-          <rect x="15" y="15" width="40" height="40" stroke="#c8a96e" stroke-width="1.5"/>
-          <rect x="22" y="22" width="26" height="26" stroke="#c8a96e" stroke-width="1"/>
-        </svg>
-      </div>
-      <div class="overlay"></div>
-      <div class="info">
-        <p style="font-size:10px;font-weight:600;letter-spacing:.15em;text-transform:uppercase;color:var(--color-accent);margin-bottom:8px;">Office</p>
-        <h3 style="font-family:var(--font-serif);font-size:22px;font-weight:400;">ChiroHype GmbH</h3>
-        <p style="font-size:12px;color:rgba(255,255,255,.6);margin-top:4px;">Germany</p>
-      </div>
-    </a>
-
-    <!-- 4: Casa Duna -->
-    <a href="project-detail.html" class="projects-masonry-item">
-      <div class="pj-placeholder pj-bg-4" style="height:380px;">
-        <svg width="70" height="70" viewBox="0 0 70 70" fill="none" opacity="0.2">
-          <path d="M35 10 L60 35 L35 60 L10 35 Z" stroke="#c8a96e" stroke-width="1.5" fill="none"/>
-        </svg>
-      </div>
-      <div class="overlay"></div>
-      <div class="info">
-        <p style="font-size:10px;font-weight:600;letter-spacing:.15em;text-transform:uppercase;color:var(--color-accent);margin-bottom:8px;">Residential</p>
-        <h3 style="font-family:var(--font-serif);font-size:22px;font-weight:400;">Casa Duna</h3>
-        <p style="font-size:12px;color:rgba(255,255,255,.6);margin-top:4px;">Alicante, Spain</p>
-      </div>
-    </a>
-
-    <!-- 5: GEMÜ Holding -->
-    <a href="project-detail.html" class="projects-masonry-item">
-      <div class="pj-placeholder pj-bg-5" style="height:460px;">
-        <svg width="70" height="70" viewBox="0 0 70 70" fill="none" opacity="0.2">
-          <circle cx="35" cy="35" r="25" stroke="#c8a96e" stroke-width="1.5"/>
-          <circle cx="35" cy="35" r="12" stroke="#c8a96e" stroke-width="1"/>
-        </svg>
-      </div>
-      <div class="overlay"></div>
-      <div class="info">
-        <p style="font-size:10px;font-weight:600;letter-spacing:.15em;text-transform:uppercase;color:var(--color-accent);margin-bottom:8px;">Office</p>
-        <h3 style="font-family:var(--font-serif);font-size:22px;font-weight:400;">GEMÜ Holding GmbH</h3>
-        <p style="font-size:12px;color:rgba(255,255,255,.6);margin-top:4px;">Germany</p>
-      </div>
-    </a>
-
-    <!-- 6: Roca Flagship -->
-    <a href="project-detail.html" class="projects-masonry-item">
-      <div class="pj-placeholder pj-bg-6" style="height:350px;">
-        <svg width="70" height="70" viewBox="0 0 70 70" fill="none" opacity="0.2">
-          <polygon points="35,8 62,28 52,60 18,60 8,28" stroke="#c8a96e" stroke-width="1.5" fill="none"/>
-        </svg>
-      </div>
-      <div class="overlay"></div>
-      <div class="info">
-        <p style="font-size:10px;font-weight:600;letter-spacing:.15em;text-transform:uppercase;color:var(--color-accent);margin-bottom:8px;">Retail</p>
-        <h3 style="font-family:var(--font-serif);font-size:22px;font-weight:400;">Roca Flagship</h3>
-        <p style="font-size:12px;color:rgba(255,255,255,.6);margin-top:4px;">Barcelona, Spain</p>
-      </div>
-    </a>
-
-    <!-- 7: Catholic University -->
-    <a href="project-detail.html" class="projects-masonry-item">
-      <div class="pj-placeholder pj-bg-1" style="height:500px; filter:hue-rotate(30deg);">
-        <svg width="70" height="70" viewBox="0 0 70 70" fill="none" opacity="0.2">
-          <line x1="10" y1="10" x2="60" y2="60" stroke="#c8a96e" stroke-width="1.5"/>
-          <line x1="60" y1="10" x2="10" y2="60" stroke="#c8a96e" stroke-width="1.5"/>
-          <circle cx="35" cy="35" r="18" stroke="#c8a96e" stroke-width="1.5"/>
-        </svg>
-      </div>
-      <div class="overlay"></div>
-      <div class="info">
-        <p style="font-size:10px;font-weight:600;letter-spacing:.15em;text-transform:uppercase;color:var(--color-accent);margin-bottom:8px;">Education</p>
-        <h3 style="font-family:var(--font-serif);font-size:22px;font-weight:400;">Catholic University</h3>
-        <p style="font-size:12px;color:rgba(255,255,255,.6);margin-top:4px;">Valencia, Spain</p>
-      </div>
-    </a>
-
-    <!-- 8: Casa Pujol -->
-    <a href="project-detail.html" class="projects-masonry-item">
-      <div class="pj-placeholder" style="height:320px; background:linear-gradient(135deg,#2a1810,#3a2818);">
-        <svg width="60" height="60" viewBox="0 0 60 60" fill="none" opacity="0.2">
-          <path d="M30 5 L55 50 L5 50 Z" stroke="#c8a96e" stroke-width="1.5" fill="none"/>
-          <path d="M30 15 L48 45 L12 45 Z" stroke="#c8a96e" stroke-width="1" fill="none"/>
-        </svg>
-      </div>
-      <div class="overlay"></div>
-      <div class="info">
-        <p style="font-size:10px;font-weight:600;letter-spacing:.15em;text-transform:uppercase;color:var(--color-accent);margin-bottom:8px;">Residential</p>
-        <h3 style="font-family:var(--font-serif);font-size:22px;font-weight:400;">Casa Pujol</h3>
-        <p style="font-size:12px;color:rgba(255,255,255,.6);margin-top:4px;">Barcelona, Spain</p>
-      </div>
-    </a>
-
-    <!-- 9: Jenkins (tall) -->
-    <a href="project-detail.html" class="projects-masonry-item">
-      <div class="pj-placeholder" style="height:480px; background:linear-gradient(135deg,#e8f8e8,#d0ead0);">
-        <svg width="70" height="70" viewBox="0 0 70 70" fill="none" opacity="0.25">
-          <rect x="5" y="5" width="60" height="60" rx="8" stroke="#2d6a2d" stroke-width="1.5"/>
-          <rect x="15" y="15" width="40" height="40" rx="4" stroke="#2d6a2d" stroke-width="1"/>
-        </svg>
-      </div>
-      <div class="overlay"></div>
-      <div class="info">
-        <p style="font-size:10px;font-weight:600;letter-spacing:.15em;text-transform:uppercase;color:var(--color-accent);margin-bottom:8px;">Retail</p>
-        <h3 style="font-family:var(--font-serif);font-size:22px;font-weight:400;">Jenkin's</h3>
-        <p style="font-size:12px;color:rgba(255,255,255,.6);margin-top:4px;">Madrid, Spain</p>
-      </div>
-    </a>
-
-    <!-- 10: Raymat Castle -->
-    <a href="project-detail.html" class="projects-masonry-item">
-      <div class="pj-placeholder" style="height:360px; background:linear-gradient(135deg,#0a1628,#1a2838);">
-        <svg width="70" height="70" viewBox="0 0 70 70" fill="none" opacity="0.2">
-          <path d="M35 8 C20 8 8 20 8 35 C8 50 20 62 35 62 C50 62 62 50 62 35 C62 20 50 8 35 8 Z" stroke="#c8a96e" stroke-width="1.5"/>
-          <path d="M35 18 C25 18 18 25 18 35 C18 45 25 52 35 52" stroke="#c8a96e" stroke-width="1" stroke-dasharray="3 3"/>
-        </svg>
-      </div>
-      <div class="overlay"></div>
-      <div class="info">
-        <p style="font-size:10px;font-weight:600;letter-spacing:.15em;text-transform:uppercase;color:var(--color-accent);margin-bottom:8px;">Heritage</p>
-        <h3 style="font-family:var(--font-serif);font-size:22px;font-weight:400;">Raymat Castle</h3>
-        <p style="font-size:12px;color:rgba(255,255,255,.6);margin-top:4px;">Lleida, Spain</p>
-      </div>
-    </a>
-
-    <!-- 11: G01 Villa -->
-    <a href="project-detail.html" class="projects-masonry-item">
-      <div class="pj-placeholder" style="height:400px; background:linear-gradient(135deg,#1e1e2e,#2e2e3e);">
-        <svg width="70" height="70" viewBox="0 0 70 70" fill="none" opacity="0.2">
-          <path d="M10 50 L35 10 L60 50" stroke="#c8a96e" stroke-width="1.5" fill="none"/>
-          <rect x="22" y="36" width="26" height="14" stroke="#c8a96e" stroke-width="1"/>
-        </svg>
-      </div>
-      <div class="overlay"></div>
-      <div class="info">
-        <p style="font-size:10px;font-weight:600;letter-spacing:.15em;text-transform:uppercase;color:var(--color-accent);margin-bottom:8px;">Residential</p>
-        <h3 style="font-family:var(--font-serif);font-size:22px;font-weight:400;">G01 Residential Villa</h3>
-        <p style="font-size:12px;color:rgba(255,255,255,.6);margin-top:4px;">United Arab Emirates</p>
-      </div>
-    </a>
-
-    <!-- 12: Bākkō -->
-    <a href="project-detail.html" class="projects-masonry-item">
-      <div class="pj-placeholder" style="height:440px; background:linear-gradient(135deg,#1a0e06,#2a1e10);">
-        <svg width="70" height="70" viewBox="0 0 70 70" fill="none" opacity="0.2">
-          <line x1="35" y1="5" x2="35" y2="65" stroke="#c8a96e" stroke-width="1.5"/>
-          <line x1="5" y1="35" x2="65" y2="35" stroke="#c8a96e" stroke-width="1.5"/>
-          <circle cx="35" cy="35" r="20" stroke="#c8a96e" stroke-width="1"/>
-        </svg>
-      </div>
-      <div class="overlay"></div>
-      <div class="info">
-        <p style="font-size:10px;font-weight:600;letter-spacing:.15em;text-transform:uppercase;color:var(--color-accent);margin-bottom:8px;">Restaurant</p>
-        <h3 style="font-family:var(--font-serif);font-size:22px;font-weight:400;">Bākkō</h3>
-        <p style="font-size:12px;color:rgba(255,255,255,.6);margin-top:4px;">Tokyo, Japan</p>
-      </div>
-    </a>
-
-  </div>
-
-  <!-- Load More -->
-  <div style="text-align:center; padding:60px 40px 80px;">
-    <button class="btn btn--outline-black" style="padding:14px 48px;">
-      Load More Projects
-      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><polyline points="6 9 12 15 18 9"/></svg>
-    </button>
+  <div class="projects-masonry" id="projectsMasonry">
+    <!-- Populated dynamically by JS -->
   </div>
 </div>
 
@@ -300,7 +89,16 @@
       </div>
       <div><p class="footer__col-title">Products</p><ul class="footer__links"><li><a href="products.html">Recessed</a></li><li><a href="products.html">Surface</a></li><li><a href="products.html">Suspension</a></li><li><a href="products.html">Track Systems</a></li></ul></div>
       <div><p class="footer__col-title">Company</p><ul class="footer__links"><li><a href="about.html">About Us</a></li><li><a href="about.html">Awards</a></li><li><a href="contact.html">Contact</a></li></ul></div>
-      <div><p class="footer__col-title">Resources</p><ul class="footer__links"><li><a href="#">iCatalogue</a></li><li><a href="#">BIM Files</a></li><li><a href="journal.html">Journal</a></li></ul></div>
+      <div><p class="footer__col-title">Resources</p><ul class="footer__links">
+          <li><a href="https://wwamq.lanzoue.com/ighlO3ltyq1a" target="_blank">Catalog Download Full</a></li>
+        </ul></div>
+      <div><p class="footer__col-title">Contact</p><ul class="footer__links"><li><a href="contact.html">Contact Us</a></li></ul>
+        <div style="margin-top:20px; color:rgba(255,255,255,0.4); font-size:12px; line-height:1.6;">
+          <p>Address: No.1 Xinjian Road, Henglan Town,</p>
+          <p>Zhongshan City, Guangdong Province, CHINA</p>
+          <p style="margin-top:8px;"><a href="mailto:sales@dingqilighting.com" style="color:rgba(255,255,255,0.4);">sales@dingqilighting.com</a></p>
+        </div>
+      </div>
     </div>
     <div class="footer__bottom">
       <p class="footer__copy">© 2025 DINGQI Lighting Technology Co., Ltd. All rights reserved.</p>
@@ -312,6 +110,78 @@
 <div class="cookie-bar"><p>We use cookies to improve your experience. <a href="#">Cookie Policy</a>.</p><div class="cookie-bar__actions"><button class="btn btn--outline-white cookie-decline" style="padding:10px 20px;font-size:11px;">Decline</button><button class="btn btn--white cookie-accept" style="padding:10px 20px;font-size:11px;color:#000;">Accept</button></div></div>
 <div class="search-overlay"><div class="search-overlay__inner"><div class="search-overlay__input-wrap"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#999" stroke-width="1.5"><circle cx="11" cy="11" r="7"/><line x1="16.5" y1="16.5" x2="22" y2="22"/></svg><input type="text" class="search-overlay__input" placeholder="Search projects..."><button class="search-overlay__close">✕</button></div><p class="search-overlay__hint">Press ESC to close</p></div></div>
 
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+<script src="../js/supabase-client.js"></script>
+<script src="../js/auth.js"></script>
 <script src="../js/main.js"></script>
+<script>
+// ===== Load lighting projects from localStorage =====
+(function() {
+  var defaultProjects = [
+    { id:'proj_1', name:'Hotel Bécquer', category:'Hospitality', location:'Seville, Spain', img:'', text:'Hotel lighting project featuring DINGQI recessed downlights and track systems.' },
+    { id:'proj_2', name:'Dentop Clinic', category:'Healthcare', location:'Bucharest, Romania', img:'', text:'Healthcare lighting with high CRI downlights for clinical environments.' },
+    { id:'proj_3', name:'ChiroHype GmbH', category:'Office', location:'Germany', img:'', text:'Modern office lighting with surface mounted LED downlights.' },
+    { id:'proj_4', name:'Casa Duna', category:'Residential', location:'Alicante, Spain', img:'', text:'Residential villa with magnetic LED track lighting throughout.' },
+    { id:'proj_5', name:'GEMÜ Holding GmbH', category:'Office', location:'Germany', img:'', text:'Corporate headquarters illuminated with DINGQI track and recessed lighting.' },
+    { id:'proj_6', name:'Roca Flagship', category:'Retail', location:'Barcelona, Spain', img:'', text:'Flagship retail store featuring precise accent track lighting.' },
+    { id:'proj_7', name:'Catholic University', category:'Education', location:'Valencia, Spain', img:'', text:'Educational facility with efficient LED lighting throughout classrooms.' },
+    { id:'proj_8', name:'Casa Pujol', category:'Residential', location:'Barcelona, Spain', img:'', text:'Residential project with recessed downlights and decorative luminaires.' },
+    { id:'proj_9', name:"Jenkin's", category:'Retail', location:'Madrid, Spain', img:'', text:'Retail space with track lighting for merchandise display.' },
+    { id:'proj_10', name:'Raymat Castle', category:'Heritage', location:'Lleida, Spain', img:'', text:'Heritage building with architectural LED lighting solutions.' },
+    { id:'proj_11', name:'G01 Residential Villa', category:'Residential', location:'United Arab Emirates', img:'', text:'Luxury villa with full DINGQI lighting system.' },
+    { id:'proj_12', name:'Bākkō', category:'Restaurant', location:'Tokyo, Japan', img:'', text:'Restaurant ambiance lighting with warm-toned LED track lights.' }
+  ];
+
+  var projects;
+  try {
+    var stored = localStorage.getItem('dingqi_lighting_projects');
+    projects = stored ? JSON.parse(stored) : defaultProjects;
+  } catch(e) { projects = defaultProjects; }
+
+  var masonry = document.getElementById('projectsMasonry');
+  var countEl = document.getElementById('projShowingCount');
+  if (countEl) countEl.textContent = projects.length;
+
+  if (!masonry) return;
+
+  var gradients = [
+    'linear-gradient(145deg,#1a2030,#2a3040,#1a2030)',
+    'linear-gradient(145deg,#f5f0e8,#e8e0d0,#f0ece4)',
+    'linear-gradient(145deg,#1a1a1a,#2c2c2c,#1a1a1a)',
+    'linear-gradient(145deg,#2a1a10,#3a2a1a,#2a1a10)',
+    'linear-gradient(145deg,#e8f0f8,#d8e8f8,#e8f0f8)',
+    'linear-gradient(145deg,#102018,#203028,#102018)'
+  ];
+
+  // Generate random heights between 320-520 for masonry effect
+  function randHeight() { return 320 + Math.floor(Math.random() * 200); }
+
+  masonry.innerHTML = projects.map(function(p, i) {
+    var h = randHeight();
+    var bg = gradients[i % gradients.length];
+    if (p.img) {
+      return '<a href="project-detail.html" class="projects-masonry-item">' +
+        '<img src="' + p.img + '" style="width:100%;height:' + h + 'px;object-fit:cover;" alt="' + p.name + '" onerror="this.style.display=\'none\';this.nextElementSibling.style.display=\'flex\';this.nextElementSibling.style.height=\'' + h + 'px\';">' +
+        '<div class="pj-placeholder" style="display:none;height:' + h + 'px;background:' + bg + ';"></div>' +
+        '<div class="overlay"></div>' +
+        '<div class="info">' +
+          '<p style="font-size:10px;font-weight:600;letter-spacing:.15em;text-transform:uppercase;color:var(--color-accent);margin-bottom:8px;">' + p.category + '</p>' +
+          '<h3 style="font-family:var(--font-serif);font-size:22px;font-weight:400;color:#fff;">' + p.name + '</h3>' +
+          '<p style="font-size:12px;color:rgba(255,255,255,.6);margin-top:4px;">' + (p.location || '') + '</p>' +
+        '</div>' +
+      '</a>';
+    }
+    return '<a href="project-detail.html" class="projects-masonry-item">' +
+      '<div class="pj-placeholder" style="height:' + h + 'px;background:' + bg + ';"></div>' +
+      '<div class="overlay"></div>' +
+      '<div class="info">' +
+        '<p style="font-size:10px;font-weight:600;letter-spacing:.15em;text-transform:uppercase;color:var(--color-accent);margin-bottom:8px;">' + p.category + '</p>' +
+        '<h3 style="font-family:var(--font-serif);font-size:22px;font-weight:400;">' + p.name + '</h3>' +
+        '<p style="font-size:12px;color:rgba(255,255,255,.6);margin-top:4px;">' + (p.location || '') + '</p>' +
+      '</div>' +
+    '</a>';
+  }).join('');
+})();
+</script>
 </body>
 </html>

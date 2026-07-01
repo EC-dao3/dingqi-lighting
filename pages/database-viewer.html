@@ -1,0 +1,485 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>数据库 — DINGQI</title>
+  <link rel="stylesheet" href="../css/main.css?v=4">
+  <link rel="stylesheet" href="../css/pages.css">
+  <style>
+    .db-page { padding: 120px 40px 80px; max-width: 1400px; margin: 0 auto; min-height: 100vh; }
+    .db__header { margin-bottom: 40px; }
+    .db__title { font-family: var(--font-serif); font-size: 36px; font-weight: 300; margin: 0 0 8px; }
+    .db__sub { color: var(--color-gray-500); font-size: 14px; }
+
+    .db__tabs { display: flex; gap: 8px; border-bottom: 1px solid var(--color-gray-200); margin-bottom: 32px; }
+    .db__tab { padding: 12px 24px; font-size: 13px; font-weight: 500; letter-spacing: 0.05em; cursor: pointer; border-bottom: 2px solid transparent; transition: all .2s; background: transparent; }
+    .db__tab.active { border-bottom-color: var(--color-accent); color: var(--color-black); }
+    .db__tab:not(.active) { color: var(--color-gray-400); }
+
+    .db__panel { display: none; }
+    .db__panel.active { display: block; }
+
+    .db__summary { display: flex; gap: 16px; margin-bottom: 28px; }
+    .db__stat { flex: 1; background: var(--color-white); border: 1px solid var(--color-gray-200); border-radius: 8px; padding: 20px 24px; }
+    .db__stat-num { font-family: var(--font-serif); font-size: 28px; font-weight: 300; margin: 0; color: var(--color-black); }
+    .db__stat-label { font-size: 12px; color: var(--color-gray-400); margin: 4px 0 0; text-transform: uppercase; letter-spacing: .08em; }
+
+    .db-table-wrap { background: var(--color-white); border: 1px solid var(--color-gray-200); border-radius: 8px; overflow: hidden; }
+    .db-table { width: 100%; border-collapse: collapse; font-size: 13px; }
+    .db-table th { text-align: left; padding: 14px 18px; background: var(--color-gray-50); font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: .06em; color: var(--color-gray-500); border-bottom: 1px solid var(--color-gray-200); white-space: nowrap; }
+    .db-table td { padding: 14px 18px; border-bottom: 1px solid var(--color-gray-100); color: var(--color-gray-700); }
+    .db-table tr:last-child td { border-bottom: none; }
+    .db-table tr:hover td { background: var(--color-gray-50); }
+
+    .db-badge { display: inline-flex; align-items: center; gap: 6px; padding: 4px 10px; border-radius: 20px; font-size: 11px; font-weight: 500; }
+    .db-badge--online { background: #ecfdf5; color: #065f46; }
+    .db-badge--offline { background: #f9fafb; color: #6b7280; }
+    .db-badge--admin { background: #fef3c7; color: #92400e; }
+    .db-dot { width: 6px; height: 6px; border-radius: 50%; display: inline-block; }
+    .db-dot--online { background: #10b981; }
+    .db-dot--offline { background: #d1d5db; }
+
+    .db-empty { padding: 60px 24px; text-align: center; color: var(--color-gray-400); font-size: 14px; }
+    .db-time { font-size: 11px; color: var(--color-gray-400); }
+
+    .db-btn { display: inline-flex; align-items: center; gap: 6px; padding: 8px 16px; border-radius: 4px; font-size: 12px; font-weight: 500; cursor: pointer; transition: all .2s; border: 1px solid var(--color-gray-300); background: var(--color-white); color: var(--color-gray-700); }
+    .db-btn:hover { background: var(--color-gray-50); }
+    .db-btn--primary { background: var(--color-black); color: var(--color-white); border-color: var(--color-black); }
+    .db-btn--primary:hover { background: var(--color-gray-700); }
+    .db-btn--danger { color: #b91c1c; border-color: #fecaca; }
+    .db-btn--danger:hover { background: #fef2f2; }
+
+    .db__toolbar { display: flex; align-items: center; justify-content: space-between; margin-bottom: 16px; }
+    .db__search { padding: 8px 14px; border: 1px solid var(--color-gray-200); border-radius: 6px; font-size: 13px; width: 280px; }
+    .db__search:focus { outline: none; border-color: var(--color-black); }
+
+    .db-row-link { cursor: pointer; }
+    .db-row-link:hover td { background: var(--color-gray-50); }
+    .db-row-link td { transition: background .15s; }
+
+    .db-modal { position: fixed; inset: 0; background: rgba(0,0,0,0.45); z-index: 10000; display: none; align-items: center; justify-content: center; padding: 20px; }
+    .db-modal.active { display: flex; }
+    .db-modal__card { background: var(--color-white); border-radius: 12px; width: 100%; max-width: 640px; max-height: 85vh; overflow: hidden; box-shadow: 0 24px 60px rgba(0,0,0,0.18); display: flex; flex-direction: column; }
+    .db-modal__header { display: flex; justify-content: space-between; align-items: center; padding: 20px 24px; border-bottom: 1px solid var(--color-gray-200); }
+    .db-modal__title { font-family: var(--font-serif); font-size: 22px; font-weight: 400; margin: 0; }
+    .db-modal__close { background: none; border: none; font-size: 24px; line-height: 1; color: var(--color-gray-400); cursor: pointer; padding: 4px; }
+    .db-modal__close:hover { color: var(--color-black); }
+    .db-modal__body { padding: 24px; overflow-y: auto; font-size: 14px; color: var(--color-gray-700); }
+    .db-modal__field { margin-bottom: 18px; }
+    .db-modal__field:last-child { margin-bottom: 0; }
+    .db-modal__label { font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: .08em; color: var(--color-gray-400); margin: 0 0 6px; }
+    .db-modal__value { margin: 0; line-height: 1.7; color: var(--color-gray-800); }
+    .db-modal__value--message { white-space: pre-wrap; line-height: 1.8; padding: 16px; background: var(--color-gray-50); border-radius: 6px; border: 1px solid var(--color-gray-200); }
+
+    @media (max-width: 768px) {
+      .db-page { padding: 100px 16px 60px; }
+      .db__summary { flex-wrap: wrap; }
+      .db__stat { flex: 1 1 40%; }
+      .db-table-wrap { overflow-x: auto; }
+      .db-table { min-width: 600px; }
+      .db-modal__card { max-height: 90vh; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav class="nav scrolled" id="mainNav">
+  <a href="../index.html" class="nav__logo"><img src="../logo.gif" alt="DINGQI"></a>
+  <ul class="nav__links">
+    <li><a href="products.html" class="nav__link">Products</a></li>
+    <li><a href="projects.html" class="nav__link">Projects</a></li>    <li><a href="about.html" class="nav__link">About Us</a></li>
+    <li><a href="contact.html" class="nav__link">Contact</a></li>
+  </ul>
+  <div class="nav__actions">
+    <button class="nav__search-btn" aria-label="Search">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="11" cy="11" r="7"/><line x1="16.5" y1="16.5" x2="22" y2="22"/></svg>
+    </button>
+    <span class="nav__auth"></span>
+  </div>
+</nav>
+
+<div class="db-page">
+  <div class="db__header">
+    <h1 class="db__title">数据库</h1>
+    <p class="db__sub">查看和管理数据库中的账户与表单提交记录。</p>
+  </div>
+
+  <div class="db__tabs">
+    <button class="db__tab active" data-panel="accounts">账户管理</button>
+    <button class="db__tab" data-panel="forms">表单记录</button>
+  </div>
+
+  <!-- 账户管理 -->
+  <div class="db__panel active" id="panel-accounts">
+    <div class="db__summary" id="accountStats"></div>
+    <div class="db__toolbar">
+      <input type="text" class="db__search" id="accountSearch" placeholder="搜索邮箱或名称...">
+      <button class="db-btn db-btn--primary" onclick="refreshAccounts()">刷新</button>
+    </div>
+    <div class="db-table-wrap">
+      <table class="db-table">
+        <thead>
+          <tr>
+            <th>名称</th>
+            <th>邮箱</th>
+            <th>角色</th>
+            <th>在线状态</th>
+            <th>注册时间</th>
+            <th>最后登录</th>
+          </tr>
+        </thead>
+        <tbody id="accountsTableBody"></tbody>
+      </table>
+      <div id="accountsEmpty" class="db-empty" style="display:none;">暂无注册账户</div>
+    </div>
+  </div>
+
+  <!-- 表单记录 -->
+  <div class="db__panel" id="panel-forms">
+    <div class="db__summary" id="formStats"></div>
+    <div class="db__toolbar">
+      <input type="text" class="db__search" id="formSearch" placeholder="搜索姓名或邮箱...">
+      <button class="db-btn db-btn--primary" onclick="refreshForms()">刷新</button>
+    </div>
+    <div class="db-table-wrap">
+      <table class="db-table">
+        <thead>
+          <tr>
+            <th>姓名</th>
+            <th>邮箱</th>
+            <th>电话</th>
+            <th>身份</th>
+            <th>主题</th>
+            <th>留言</th>
+            <th>提交时间</th>
+          </tr>
+        </thead>
+        <tbody id="formsTableBody"></tbody>
+      </table>
+      <div id="formsEmpty" class="db-empty" style="display:none;">暂无表单提交记录</div>
+    </div>
+  </div>
+</div>
+
+<!-- 表单详情弹窗 -->
+<div class="db-modal" id="formModal" onclick="if(event.target === this) closeFormModal()">
+  <div class="db-modal__card">
+    <div class="db-modal__header">
+      <h2 class="db-modal__title">表单详情</h2>
+      <button class="db-modal__close" onclick="closeFormModal()">&times;</button>
+    </div>
+    <div class="db-modal__body" id="formModalBody">
+      <!-- 动态填充 -->
+    </div>
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+<script src="../js/supabase-client.js"></script>
+<script src="../js/auth.js"></script>
+<script src="../js/main.js"></script>
+
+<div id="dbDebug" style="position:fixed;top:0;left:0;right:0;background:#fef3c7;color:#92400e;padding:8px 16px;font-size:12px;z-index:9999;display:none;"></div>
+
+<script>
+function showDebug(msg) {
+  const el = document.getElementById('dbDebug');
+  el.textContent = msg;
+  el.style.display = 'block';
+  console.log('[DB Viewer]', msg);
+}
+
+// ===== Admin check =====
+async function checkAdmin() {
+  await Auth.init();
+  showDebug(`Auth initialized: loggedIn=${Auth.isLoggedIn}, isAdmin=${Auth.isAdmin}, user=${Auth.user?.email || 'none'}`);
+  if (!Auth.isLoggedIn || !Auth.isAdmin) {
+    alert('您没有管理员权限，无法访问数据库。');
+    window.location.href = 'login.html';
+    return false;
+  }
+  return true;
+}
+
+// ===== Tabs =====
+document.querySelectorAll('.db__tab').forEach(tab => {
+  tab.addEventListener('click', () => {
+    const panelName = tab.dataset.panel;
+    console.log('Switch to tab:', panelName);
+    document.querySelectorAll('.db__tab').forEach(t => t.classList.remove('active'));
+    document.querySelectorAll('.db__panel').forEach(p => p.classList.remove('active'));
+    tab.classList.add('active');
+    document.getElementById('panel-' + panelName).classList.add('active');
+  });
+});
+
+// ===== Search =====
+document.getElementById('accountSearch').addEventListener('input', function() {
+  renderAccounts(this.value.toLowerCase());
+});
+document.getElementById('formSearch').addEventListener('input', function() {
+  renderForms(this.value.toLowerCase());
+});
+
+// ===== Accounts =====
+let allAccounts = [];
+
+async function refreshAccounts() {
+  const db = getSupabase();
+  if (!db) {
+    showDebug('Supabase client not available');
+    fallbackAccountList();
+    return;
+  }
+
+  try {
+    showDebug('Loading accounts via list_all_users...');
+    const { data, error } = await db.rpc('list_all_users');
+    if (error) {
+      console.warn('RPC list_all_users failed:', error.message);
+      showDebug('list_all_users 失败: ' + error.message);
+      fallbackAccountList();
+      return;
+    }
+    console.log('list_all_users data:', data);
+    allAccounts = (data || []).map(u => ({
+      name: u.raw_user_meta_data?.full_name || u.email?.split('@')[0] || 'Unknown',
+      email: u.email || '',
+      isAdmin: /^admin\d*-dingqi\d*$/i.test(u.raw_user_meta_data?.full_name || ''),
+      lastSignIn: u.last_sign_in_at,
+      createdAt: u.created_at,
+      isOnline: u.last_sign_in_at ? (Date.now() - new Date(u.last_sign_in_at).getTime()) < 600000 : false,
+      userId: u.id
+    }));
+    renderAccounts();
+  } catch (e) {
+    console.error('Error loading accounts:', e);
+    showDebug('加载账户异常: ' + e.message);
+    fallbackAccountList();
+  }
+}
+
+function fallbackAccountList() {
+  // If RPC is not available, at least show the current admin user
+  const current = Auth.user;
+  if (current) {
+    allAccounts = [{
+      name: current.user_metadata?.full_name || current.email?.split('@')[0] || 'Unknown',
+      email: current.email || '',
+      isAdmin: true,
+      lastSignIn: current.last_sign_in_at,
+      createdAt: current.created_at,
+      isOnline: true,
+      userId: current.id
+    }];
+    renderAccounts();
+    document.getElementById('accountsEmpty').style.display = 'block';
+    document.getElementById('accountsEmpty').textContent = '已显示当前管理员账户。完整列表需要 list_all_users SQL 函数生效（若刚创建，请等待 2-3 分钟后刷新）。';
+  } else {
+    document.getElementById('accountsTableBody').innerHTML = '';
+    document.getElementById('accountsEmpty').style.display = 'block';
+    document.getElementById('accountsEmpty').textContent = '无法获取账户列表。请确认 list_all_users 函数已创建，或按 F12 查看控制台错误。';
+    document.getElementById('accountStats').innerHTML = '';
+  }
+}
+
+function renderAccounts(filter) {
+  let accounts = allAccounts;
+  if (filter) {
+    accounts = accounts.filter(a =>
+      a.email.toLowerCase().includes(filter) ||
+      a.name.toLowerCase().includes(filter)
+    );
+  }
+
+  const tbody = document.getElementById('accountsTableBody');
+  const empty = document.getElementById('accountsEmpty');
+  const stats = document.getElementById('accountStats');
+
+  const adminCount = allAccounts.filter(a => a.isAdmin).length;
+  const onlineCount = allAccounts.filter(a => a.isOnline).length;
+
+  stats.innerHTML = `
+    <div class="db__stat"><p class="db__stat-num">${allAccounts.length}</p><p class="db__stat-label">总用户数</p></div>
+    <div class="db__stat"><p class="db__stat-num">${adminCount}</p><p class="db__stat-label">管理员</p></div>
+    <div class="db__stat"><p class="db__stat-num">${onlineCount}</p><p class="db__stat-label">当前在线</p></div>
+  `;
+
+  if (accounts.length === 0) {
+    tbody.innerHTML = '';
+    empty.style.display = 'block';
+    empty.textContent = filter ? '无匹配结果' : '暂无注册账户';
+    return;
+  }
+
+  empty.style.display = 'none';
+  tbody.innerHTML = accounts.map(u => `
+    <tr>
+      <td><strong>${esc(u.name)}</strong></td>
+      <td>${esc(u.email)}</td>
+      <td>${u.isAdmin ? '<span class="db-badge db-badge--admin">管理员</span>' : '<span style="color:var(--color-gray-400);">普通用户</span>'}</td>
+      <td>
+        <span class="db-badge ${u.isOnline ? 'db-badge--online' : 'db-badge--offline'}">
+          <span class="db-dot ${u.isOnline ? 'db-dot--online' : 'db-dot--offline'}"></span>
+          ${u.isOnline ? '在线' : '离线'}
+        </span>
+      </td>
+      <td class="db-time">${fmtTime(u.createdAt)}</td>
+      <td class="db-time">${fmtTime(u.lastSignIn) || '从未登录'}</td>
+    </tr>
+  `).join('');
+}
+
+// ===== Forms =====
+let allForms = [];
+
+async function refreshForms() {
+  const db = getSupabase();
+  if (!db) {
+    showDebug('Supabase client not available for forms');
+    fallbackFormList();
+    return;
+  }
+
+  try {
+    showDebug('Loading contact submissions...');
+    const { data, error } = await db
+      .from('contact_submissions')
+      .select('*')
+      .order('created_at', { ascending: false });
+
+    if (error) {
+      console.error('Failed to load contact submissions:', error.message);
+      showDebug('contact_submissions 失败: ' + error.message);
+      fallbackFormList();
+      return;
+    }
+
+    console.log('contact_submissions data:', data);
+    allForms = data || [];
+    renderForms();
+  } catch (e) {
+    console.error('Error loading forms:', e);
+    showDebug('加载表单异常: ' + e.message);
+    fallbackFormList();
+  }
+}
+
+function fallbackFormList() {
+  document.getElementById('formsTableBody').innerHTML = '';
+  document.getElementById('formsEmpty').style.display = 'block';
+  document.getElementById('formsEmpty').textContent = '无法加载表单记录。请确认：1. 已运行 005 SQL 创建表；2. 当前账号有管理员权限读取 contact_submissions。';
+  document.getElementById('formStats').innerHTML = '';
+}
+
+function renderForms(filter) {
+  let forms = allForms;
+  if (filter) {
+    forms = forms.filter(f =>
+      (f.email || '').toLowerCase().includes(filter) ||
+      (f.first_name || '').toLowerCase().includes(filter) ||
+      (f.last_name || '').toLowerCase().includes(filter)
+    );
+  }
+
+  const tbody = document.getElementById('formsTableBody');
+  const empty = document.getElementById('formsEmpty');
+  const stats = document.getElementById('formStats');
+
+  stats.innerHTML = `
+    <div class="db__stat"><p class="db__stat-num">${allForms.length}</p><p class="db__stat-label">总提交数</p></div>
+    <div class="db__stat"><p class="db__stat-num">${new Set(allForms.map(f => f.email)).size}</p><p class="db__stat-label">独立用户</p></div>
+  `;
+
+  if (forms.length === 0) {
+    tbody.innerHTML = '';
+    empty.style.display = 'block';
+    empty.textContent = filter ? '无匹配结果' : '暂无表单提交记录';
+    return;
+  }
+
+  empty.style.display = 'none';
+  tbody.innerHTML = forms.map(f => `
+    <tr class="db-row-link" onclick="openFormModal('${esc(f.id || '')}')">
+      <td><strong>${esc(f.first_name)} ${esc(f.last_name)}</strong></td>
+      <td>${esc(f.email)}</td>
+      <td>${esc(f.phone || '-')}</td>
+      <td>${esc(f.profile || '-')}</td>
+      <td>${esc(f.subject || '-')}</td>
+      <td style="max-width:200px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;" title="点击查看完整内容">${esc(f.message)}</td>
+      <td class="db-time">${fmtTime(f.created_at)}</td>
+    </tr>
+  `).join('');
+}
+
+function openFormModal(formId) {
+  const form = allForms.find(f => f.id === formId || String(f.id) === String(formId));
+  if (!form) return;
+
+  const body = document.getElementById('formModalBody');
+  body.innerHTML = `
+    <div class="db-modal__field">
+      <p class="db-modal__label">姓名</p>
+      <p class="db-modal__value">${esc(form.first_name)} ${esc(form.last_name)}</p>
+    </div>
+    <div class="db-modal__field">
+      <p class="db-modal__label">邮箱</p>
+      <p class="db-modal__value">${esc(form.email)}</p>
+    </div>
+    <div class="db-modal__field">
+      <p class="db-modal__label">电话</p>
+      <p class="db-modal__value">${esc(form.phone || '-')}</p>
+    </div>
+    <div class="db-modal__field">
+      <p class="db-modal__label">身份</p>
+      <p class="db-modal__value">${esc(form.profile || '-')}</p>
+    </div>
+    <div class="db-modal__field">
+      <p class="db-modal__label">主题</p>
+      <p class="db-modal__value">${esc(form.subject || '-')}</p>
+    </div>
+    <div class="db-modal__field">
+      <p class="db-modal__label">提交时间</p>
+      <p class="db-modal__value">${fmtTime(form.created_at)}</p>
+    </div>
+    <div class="db-modal__field">
+      <p class="db-modal__label">留言内容</p>
+      <p class="db-modal__value db-modal__value--message">${esc(form.message)}</p>
+    </div>
+  `;
+
+  document.getElementById('formModal').classList.add('active');
+}
+
+function closeFormModal() {
+  document.getElementById('formModal').classList.remove('active');
+}
+
+document.addEventListener('keydown', function(e) {
+  if (e.key === 'Escape') closeFormModal();
+});
+
+function esc(s) {
+  if (!s) return '';
+  return String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+}
+
+function fmtTime(t) {
+  if (!t) return '';
+  const d = new Date(t);
+  if (isNaN(d.getTime())) return '';
+  return d.toLocaleString('zh-CN', { year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit' });
+}
+
+// ===== Init =====
+(async function init() {
+  const ok = await checkAdmin();
+  if (!ok) return;
+  refreshAccounts();
+  refreshForms();
+})();
+</script>
+</body>
+</html>

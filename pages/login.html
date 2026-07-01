@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sign In / Register — DINGQI</title>
+  <meta name="description" content="Sign in or create your DINGQI account to access exclusive content, save favorites and more.">
+  <link rel="stylesheet" href="../css/main.css?v=4">
+  <link rel="stylesheet" href="../css/pages.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <style>
+    .auth-page { min-height: 100vh; display: flex; align-items: center; justify-content: center; padding: 120px 20px 60px; background: var(--color-gray-100); }
+    .auth-card { background: var(--color-white); border-radius: 2px; max-width: 440px; width: 100%; padding: 48px 44px; }
+    .auth-logo { display: block; margin: 0 auto 40px; height: 28px; width: auto; }
+    .auth-tabs { display: flex; border-bottom: 1px solid var(--color-gray-200); margin-bottom: 36px; }
+    .auth-tab { flex: 1; padding: 12px 0; font-size: 13px; font-weight: 500; text-align: center; color: var(--color-gray-400); cursor: pointer; border-bottom: 2px solid transparent; transition: all var(--transition); letter-spacing: 0.06em; text-transform: uppercase; }
+    .auth-tab.active { color: var(--color-black); border-bottom-color: var(--color-accent); }
+    .auth-field { margin-bottom: 20px; }
+    .auth-field label { display: block; font-size: 11px; font-weight: 500; letter-spacing: 0.08em; text-transform: uppercase; color: var(--color-gray-500); margin-bottom: 8px; }
+    .auth-field input { width: 100%; padding: 12px 14px; border: 1px solid var(--color-gray-200); border-radius: 2px; font-size: 14px; font-family: var(--font-sans); transition: border-color var(--transition); background: var(--color-white); }
+    .auth-field input:focus { outline: none; border-color: var(--color-black); }
+    .auth-submit { width: 100%; padding: 14px; background: var(--color-black); color: var(--color-white); font-size: 12px; font-weight: 500; letter-spacing: 0.12em; text-transform: uppercase; border: none; cursor: pointer; transition: background var(--transition); margin-top: 8px; }
+    .auth-submit:hover { background: var(--color-gray-700); }
+    .auth-submit:disabled { opacity: 0.5; cursor: not-allowed; }
+    .auth-divider { display: flex; align-items: center; margin: 30px 0 24px; color: var(--color-gray-400); font-size: 11px; letter-spacing: 0.06em; }
+    .auth-divider::before, .auth-divider::after { content: ''; flex: 1; height: 1px; background: var(--color-gray-200); }
+    .auth-divider span { padding: 0 18px; }
+    .auth-oauth { display: flex; flex-direction: column; gap: 10px; }
+    .oauth-btn { display: flex; align-items: center; justify-content: center; gap: 10px; padding: 12px 16px; border: 1px solid var(--color-gray-200); border-radius: 2px; font-size: 13px; font-weight: 500; cursor: pointer; background: var(--color-white); transition: all var(--transition); }
+    .oauth-btn:hover { border-color: var(--color-gray-400); background: var(--color-gray-100); }
+    .oauth-btn svg { flex-shrink: 0; }
+    .oauth-btn--github { color: #24292f; }
+    .oauth-btn--wechat { color: #07c160; }
+    .oauth-btn--qq { color: #12b7f5; }
+    .auth-msg { margin-top: 16px; padding: 12px 14px; border-radius: 2px; font-size: 12px; line-height: 1.5; display: none; }
+    .auth-msg.error { display: block; background: #fef2f2; color: #991b1b; border: 1px solid #fecaca; }
+    .auth-msg.success { display: block; background: #f0fdf4; color: #166534; border: 1px solid #bbf7d0; }
+    .auth-panel { display: none; }
+    .auth-panel.active { display: block; }
+    .auth-footer { text-align: center; margin-top: 24px; font-size: 12px; color: var(--color-gray-400); }
+    /* ── Register Step Flow ── */
+    .reg-step { display: none; }
+    .reg-step.active { display: block; }
+    .auth-code-input {
+      width: 100%; padding: 14px 16px; border: 2px solid var(--color-gray-300);
+      border-radius: 2px; font-size: 28px; text-align: center; letter-spacing: 10px;
+      font-family: monospace; background: var(--color-white);
+      transition: border-color var(--transition);
+    }
+    .auth-code-input:focus { outline: none; border-color: var(--color-black); }
+    .auth-send-code {
+      width: 100%; padding: 14px; font-size: 12px; font-weight: 500;
+      letter-spacing: 0.12em; text-transform: uppercase; cursor: pointer;
+      background: transparent; color: var(--color-black); border: 1px solid var(--color-black);
+      transition: all var(--transition); margin-top: 8px;
+    }
+    .auth-send-code:hover { background: var(--color-black); color: var(--color-white); }
+    .auth-send-code:disabled { opacity: 0.6; cursor: not-allowed; }
+    .auth-send-code.counting {
+      background: var(--color-gray-100); border-color: var(--color-gray-200); color: var(--color-gray-400);
+    }
+    .auth-verify-code {
+      width: 100%; padding: 14px; background: var(--color-black); color: var(--color-white);
+      font-size: 12px; font-weight: 500; letter-spacing: 0.12em; text-transform: uppercase;
+      border: none; cursor: pointer; transition: background var(--transition); margin-top: 14px;
+    }
+    .auth-verify-code:hover { background: var(--color-gray-700); }
+    .auth-verify-code:disabled { opacity: 0.5; cursor: not-allowed; }
+    .reg-back {
+      display: block; margin: 14px 0 0; font-size: 11px; color: var(--color-gray-400);
+      cursor: pointer; text-align: center; text-decoration: underline; transition: color var(--transition);
+    }
+    .reg-back:hover { color: var(--color-gray-600); }
+    @media (max-width: 500px) {
+      .auth-card { padding: 32px 24px; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav class="nav" id="mainNav">
+  <a href="../index.html" class="nav__logo"><img src="../logo.gif" alt="DINGQI"></a>
+  <ul class="nav__links">
+    <li><a href="products.html" class="nav__link">Products</a></li>
+    <li><a href="projects.html" class="nav__link">Projects</a></li>    <li><a href="about.html" class="nav__link">About Us</a></li>
+    <li><a href="contact.html" class="nav__link">Contact</a></li>
+  </ul>
+  <div class="nav__actions">
+    <button class="nav__search-btn" aria-label="Search">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="11" cy="11" r="7"/><line x1="16.5" y1="16.5" x2="22" y2="22"/></svg>
+    </button>
+    <button class="nav__menu-btn" aria-label="Menu">
+      <svg width="20" height="14" viewBox="0 0 20 14" fill="none" stroke="currentColor" stroke-width="1.5"><line x1="0" y1="1" x2="20" y2="1"/><line x1="0" y1="7" x2="20" y2="7"/><line x1="0" y1="13" x2="20" y2="13"/></svg>
+    </button>
+    <span class="nav__auth"></span>
+  </div>
+</nav>
+
+<div class="auth-page">
+  <div class="auth-card">
+
+    <img src="../logo.gif" alt="DINGQI" class="auth-logo">
+
+    <!-- Tabs -->
+    <div class="auth-tabs">
+      <button class="auth-tab active" data-panel="login">Sign In</button>
+      <button class="auth-tab" data-panel="register">Register</button>
+    </div>
+
+    <!-- Login Panel -->
+    <div class="auth-panel active" id="panel-login">
+      <div class="auth-field"><label>Email</label><input type="email" id="login-email" placeholder="you@example.com" autocomplete="email"></div>
+      <div class="auth-field"><label>Password</label><input type="password" id="login-password" placeholder="Your password" autocomplete="current-password"></div>
+      <button class="auth-submit" id="btn-login">Sign In</button>
+    </div>
+
+    <!-- Register Panel — Step 1: Email -->
+    <div class="auth-panel" id="panel-register">
+      <div class="reg-step active" id="reg-step-email">
+        <div class="auth-field"><label>Full Name</label><input type="text" id="reg-name" placeholder="Your name" autocomplete="name"></div>
+        <div class="auth-field"><label>Email</label><input type="email" id="reg-email" placeholder="you@example.com" autocomplete="email"></div>
+        <button class="auth-send-code" id="btn-send-code">Send Verification Code</button>
+      </div>
+
+      <div class="reg-step" id="reg-step-code">
+        <p style="font-size:13px;color:var(--color-gray-500);margin-bottom:8px;line-height:1.5;">
+          A 6‑digit code was sent to <strong id="code-email-display"></strong>
+        </p>
+        <div class="auth-field"><label>Verification Code</label><input type="text" class="auth-code-input" id="reg-code" maxlength="6" inputmode="numeric" placeholder="000000" autocomplete="one-time-code"></div>
+        <button class="auth-verify-code" id="btn-verify-code">Verify Code</button>
+        <button class="auth-send-code counting" id="btn-resend-code" disabled>Resend (60s)</button>
+        <span class="reg-back" id="reg-back-email">&larr; Change email</span>
+      </div>
+
+      <div class="reg-step" id="reg-step-password">
+        <div class="auth-field"><label>Set Password</label><input type="password" id="reg-password" placeholder="Min 6 characters" autocomplete="new-password"></div>
+        <div class="auth-field"><label>Confirm Password</label><input type="password" id="reg-password-confirm" placeholder="Re-enter password" autocomplete="new-password"></div>
+        <button class="auth-submit" id="btn-complete-reg">Complete Registration</button>
+      </div>
+    </div>
+
+    <div class="auth-msg" id="auth-msg"></div>
+
+    <!-- OAuth -->
+    <div class="auth-divider"><span>or continue with</span></div>
+    <div class="auth-oauth">
+      <button class="oauth-btn oauth-btn--github" id="btn-github">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg>
+        GitHub
+      </button>
+      <button class="oauth-btn oauth-btn--wechat" id="btn-wechat">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M8.691 2.188C3.891 2.188 0 5.476 0 9.53c0 2.212 1.17 4.203 3.002 5.55a.59.59 0 01.213.665l-.39 1.48c-.019.07-.048.141-.048.213 0 .163.13.295.29.295a.326.326 0 00.167-.054l1.903-1.114a.864.864 0 01.717-.098 10.16 10.16 0 002.837.403c.276 0 .543-.027.811-.05-.857-2.578.157-4.972 1.932-6.446 1.703-1.415 3.882-1.98 5.853-1.838-.576-3.583-4.196-6.348-8.596-6.348zM5.785 5.991c.642 0 1.162.529 1.162 1.18a1.17 1.17 0 01-1.162 1.178A1.17 1.17 0 014.623 7.17c0-.651.52-1.18 1.162-1.18zm5.813 0c.642 0 1.162.529 1.162 1.18a1.17 1.17 0 01-1.162 1.178 1.17 1.17 0 01-1.162-1.178c0-.651.52-1.18 1.162-1.18zm3.109 3.626c-.476-.427-.843-.682-1.315-1.055 1.648-.84 3.671-.885 5.135.276 1.667 1.322 2.123 3.5 1.272 5.03a.594.594 0 01.073.592c.252.477.458.753.575 1.2a.156.156 0 01-.196.196c-.447-.117-.723-.323-1.2-.575a.594.594 0 01-.592.073c-1.058.598-2.83.564-4.086-.277-1.13-.755-1.838-1.987-1.782-3.216.055-1.192.69-2.388 2.116-3.244zm2.249 2.434c.485 0 .88.41.88.915a.898.898 0 01-.88.915.898.898 0 01-.88-.915c0-.506.395-.915.88-.915zm4.22 0c.485 0 .88.41.88.915a.898.898 0 01-.88.915.898.898 0 01-.88-.915c0-.506.395-.915.88-.915z"/></svg>
+        WeChat
+      </button>
+      <button class="oauth-btn oauth-btn--qq" id="btn-qq">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.477 2 2 6.477 2 12c0 4.418 2.866 8.167 6.84 9.49.09.164.09.29.09.346 0 .09-.04.227-.09.227-.3.04-.712.18-.712.65 0 .128.074.215.164.29.1.058.158.12.158.293 0 .544-.896.72-1.297.25-.398-.466-.573-1.025-.573-1.025-.597-1.07-1.995-1.136-1.995-1.136s-.896.028-.498.597c.163.215.36.35.59.463.227.11.4.1.483.1.106 0 .51.178.31.415-.16.19-.77.428-.77.428s-.643.125-.643.666c0 .223.112.38.267.494.15.11.318.18.49.263 1.06.545 3.29 2.1 7.594 2.1 4.303 0 6.534-1.556 7.593-2.1.172-.083.34-.153.49-.263.155-.113.268-.27.268-.494 0-.54-.642-.665-.642-.665s-.608-.237-.77-.427c-.2-.237.205-.414.312-.415.083 0 .255.01.482-.1.23-.113.427-.248.59-.463.4-.57-.5-.597-.5-.597s-1.397.067-1.993 1.136c0 0-.177.557-.575 1.025-.37.44-1.288.282-1.295-.25 0-.172.057-.234.157-.29.09-.076.163-.163.163-.29 0-.47-.413-.61-.713-.65-.05 0-.09-.14-.09-.228 0-.056 0-.183.09-.346C19.133 20.167 22 16.418 22 12c0-5.523-4.477-10-10-10z"/></svg>
+        QQ
+      </button>
+    </div>
+
+    <div class="auth-footer">
+      By continuing, you agree to our Privacy Policy.
+    </div>
+  </div>
+</div>
+
+<!-- Supabase SDK -->
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+<script src="../js/supabase-client.js"></script>
+<script src="../js/auth.js"></script>
+<script src="../js/main.js"></script>
+
+<script>
+// ── Tab switching ──
+document.querySelectorAll('.auth-tab').forEach(tab => {
+  tab.addEventListener('click', () => {
+    document.querySelectorAll('.auth-tab').forEach(t => t.classList.remove('active'));
+    document.querySelectorAll('.auth-panel').forEach(p => p.classList.remove('active'));
+    tab.classList.add('active');
+    document.getElementById('panel-' + tab.dataset.panel).classList.add('active');
+    document.getElementById('auth-msg').className = 'auth-msg';
+    document.getElementById('auth-msg').style.display = 'none';
+    // Reset register flow to step 1 when switching to Register tab
+    if (tab.dataset.panel === 'register') {
+      showRegStep('reg-step-email');
+      clearInterval(countdownTimer);
+    }
+  });
+});
+
+// ── Msg helper ──
+function showMsg(text, type) {
+  const el = document.getElementById('auth-msg');
+  el.textContent = text;
+  el.className = 'auth-msg ' + type;
+  el.style.display = 'block';
+}
+
+// ── Login ──
+document.getElementById('btn-login').addEventListener('click', async () => {
+  const email = document.getElementById('login-email').value.trim();
+  const password = document.getElementById('login-password').value;
+  if (!email || !password) return showMsg('Please fill in all fields.', 'error');
+
+  const btn = document.getElementById('btn-login');
+  btn.disabled = true; btn.textContent = 'Signing in...';
+
+  const result = await Auth.login(email, password);
+  btn.disabled = false; btn.textContent = 'Sign In';
+
+  if (result.error) return showMsg(result.error, 'error');
+  window.location.href = '../index.html';
+});
+
+// ── Register: Step 1 — Send Verification Code ──
+let countdownTimer = null;
+let regEmail = '';
+
+function startCountdown(btn) {
+  clearInterval(countdownTimer);
+  let sec = 60;
+  btn.classList.add('counting');
+  btn.disabled = true;
+  btn.textContent = 'Resend (' + sec + 's)';
+  countdownTimer = setInterval(() => {
+    sec--;
+    btn.textContent = 'Resend (' + sec + 's)';
+    if (sec <= 0) {
+      clearInterval(countdownTimer);
+      btn.classList.remove('counting');
+      btn.disabled = false;
+      btn.textContent = 'Resend Code';
+    }
+  }, 1000);
+}
+
+function showRegStep(stepId) {
+  document.querySelectorAll('#panel-register .reg-step').forEach(s => s.classList.remove('active'));
+  document.getElementById(stepId).classList.add('active');
+  document.getElementById('auth-msg').className = 'auth-msg';
+  document.getElementById('auth-msg').style.display = 'none';
+}
+
+document.getElementById('btn-send-code').addEventListener('click', async () => {
+  const name = document.getElementById('reg-name').value.trim();
+  regEmail = document.getElementById('reg-email').value.trim();
+  if (!name || !regEmail) return showMsg('Please enter your name and email.', 'error');
+  if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(regEmail)) return showMsg('Please enter a valid email address.', 'error');
+
+  const btn = document.getElementById('btn-send-code');
+  btn.disabled = true; btn.textContent = 'Sending...';
+
+  const result = await Auth.sendVerificationCode(regEmail);
+  btn.disabled = false; btn.textContent = 'Send Verification Code';
+
+  if (result.error) {
+    return showMsg(result.error, 'error');
+  }
+
+  // Move to Step 2 — enter code
+  document.getElementById('code-email-display').textContent = regEmail;
+  document.getElementById('reg-code').value = '';
+  showRegStep('reg-step-code');
+  startCountdown(document.getElementById('btn-resend-code'));
+  document.getElementById('reg-code').focus();
+  showMsg('A 6‑digit code has been sent to your email.', 'success');
+});
+
+// ── Resend Code ──
+document.getElementById('btn-resend-code').addEventListener('click', async () => {
+  const result = await Auth.sendVerificationCode(regEmail);
+  if (result.error) return showMsg(result.error, 'error');
+  startCountdown(document.getElementById('btn-resend-code'));
+  showMsg('A new code has been sent.', 'success');
+});
+
+// ── Go back to email step ──
+document.getElementById('reg-back-email').addEventListener('click', () => {
+  clearInterval(countdownTimer);
+  showRegStep('reg-step-email');
+  document.getElementById('btn-resend-code').classList.remove('counting');
+  document.getElementById('btn-resend-code').disabled = true;
+  document.getElementById('btn-resend-code').textContent = 'Resend (60s)';
+});
+
+// ── Register: Step 2 — Verify Code ──
+document.getElementById('btn-verify-code').addEventListener('click', async () => {
+  const code = document.getElementById('reg-code').value.trim();
+  if (code.length !== 6) return showMsg('Please enter the 6‑digit verification code.', 'error');
+
+  const btn = document.getElementById('btn-verify-code');
+  btn.disabled = true; btn.textContent = 'Verifying...';
+
+  const result = await Auth.verifyCode(regEmail, code);
+  btn.disabled = false; btn.textContent = 'Verify Code';
+
+  if (result.error) return showMsg(result.error, 'error');
+
+  // Move to Step 3 — set password
+  clearInterval(countdownTimer);
+  document.getElementById('reg-password').value = '';
+  document.getElementById('reg-password-confirm').value = '';
+  showRegStep('reg-step-password');
+  showMsg('Code verified! Please set your password.', 'success');
+});
+
+// ── Allow Enter key on code input ──
+document.getElementById('reg-code').addEventListener('keydown', (e) => {
+  if (e.key === 'Enter') document.getElementById('btn-verify-code').click();
+});
+
+// ── Register: Step 3 — Set Password & Complete ──
+document.getElementById('btn-complete-reg').addEventListener('click', async () => {
+  const name = document.getElementById('reg-name').value.trim();
+  const password = document.getElementById('reg-password').value;
+  const confirm = document.getElementById('reg-password-confirm').value;
+
+  if (!password || !confirm) return showMsg('Please fill in both password fields.', 'error');
+  if (password.length < 6) return showMsg('Password must be at least 6 characters.', 'error');
+  if (password !== confirm) return showMsg('Passwords do not match.', 'error');
+
+  const btn = document.getElementById('btn-complete-reg');
+  btn.disabled = true; btn.textContent = 'Creating account...';
+
+  const result = await Auth.completeRegistration(regEmail, password, name);
+
+  if (result.error) {
+    btn.disabled = false; btn.textContent = 'Complete Registration';
+    return showMsg(result.error, 'error');
+  }
+
+  showMsg('Registration complete! Redirecting...', 'success');
+  setTimeout(() => { window.location.href = '../index.html'; }, 1200);
+});
+
+// ── OAuth ──
+document.getElementById('btn-github').addEventListener('click', () => Auth.loginWithGitHub());
+document.getElementById('btn-wechat').addEventListener('click', () => Auth.loginWithWeChat());
+document.getElementById('btn-qq').addEventListener('click', () => Auth.loginWithQQ());
+
+// ── Check if already logged in (returning from OAuth) ──
+Auth.onChange((event, user) => {
+  if (event === 'SIGNED_IN' && user) {
+    showMsg('Signed in as ' + (user.user_metadata?.full_name || user.email), 'success');
+    setTimeout(() => { window.location.href = '../index.html'; }, 1500);
+  }
+});
+</script>
+</body>
+</html>

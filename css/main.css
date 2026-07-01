@@ -118,6 +118,50 @@ button { border: none; background: none; cursor: pointer; font-family: inherit; 
 }
 .nav__search-btn:hover, .nav__menu-btn:hover { color: var(--color-black); }
 
+/* ── Auth (Login) ── */
+.nav__auth { display: flex; align-items: center; }
+.nav__login-btn {
+  font-size: 12px; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase;
+  color: var(--color-gray-600); padding: 6px 0; transition: color var(--transition);
+}
+.nav__login-btn:hover { color: var(--color-black); }
+.nav__user-menu { position: relative; }
+.nav__user-btn {
+  display: flex; align-items: center; gap: 6px;
+  font-size: 12px; font-weight: 500; color: var(--color-gray-600);
+  padding: 4px 0; transition: color var(--transition);
+}
+.nav__user-btn:hover { color: var(--color-black); }
+.nav__user-name { max-width: 100px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.nav__user-dropdown {
+  position: absolute; top: 100%; right: 0; margin-top: 8px;
+  background: var(--color-white); border: 1px solid var(--color-gray-200);
+  border-radius: 2px; padding: 8px 0; min-width: 140px;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.06);
+  display: none; z-index: 1001;
+}
+.nav__user-menu:hover .nav__user-dropdown { display: block; }
+.nav__user-dropdown a {
+  display: block; padding: 8px 18px; font-size: 12px; color: var(--color-gray-600);
+  transition: background var(--transition);
+}
+.nav__user-dropdown a:hover { background: var(--color-gray-100); color: var(--color-black); }
+
+/* Admin badge & console link */
+.nav__admin-badge {
+  display: inline-flex;
+  align-items: center;
+  font-size: 9px; font-weight: 600; letter-spacing: 0.05em; text-transform: uppercase;
+  background: var(--color-accent); color: var(--color-white);
+  padding: 2px 6px; border-radius: 2px; margin-left: 4px;
+}
+.nav__user-dropdown a[href*="admin-console"] {
+  color: var(--color-accent-dark); font-weight: 600;
+}
+.nav__user-dropdown a[href*="admin-console"]:hover {
+  background: var(--color-accent); color: var(--color-white);
+}
+
 /* ── Mega Menu ── */
 .nav__mega {
   position: fixed;

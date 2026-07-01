@@ -1,0 +1,735 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>控制台 — DINGQI</title>
+  <link rel="stylesheet" href="../css/main.css?v=4">
+  <link rel="stylesheet" href="../css/pages.css">
+  <style>
+    .console-page { padding: 120px 40px 80px; max-width: 1400px; margin: 0 auto; min-height: 100vh; }
+    .console__header { margin-bottom: 40px; }
+    .console__title { font-family: var(--font-serif); font-size: 36px; font-weight: 300; margin: 0 0 8px; }
+    .console__sub { color: var(--color-gray-500); font-size: 14px; }
+
+    .console__tabs { display: flex; gap: 8px; border-bottom: 1px solid var(--color-gray-200); margin-bottom: 32px; }
+    .console__tab { padding: 12px 24px; font-size: 13px; font-weight: 500; letter-spacing: 0.05em; cursor: pointer; border-bottom: 2px solid transparent; transition: all .2s; background: transparent; }
+    .console__tab.active { border-bottom-color: var(--color-accent); color: var(--color-black); }
+    .console__tab:not(.active) { color: var(--color-gray-400); }
+
+    .console__panel { display: none; }
+    .console__panel.active { display: block; }
+
+    .admin-card { background: var(--color-white); border: 1px solid var(--color-gray-200); border-radius: 8px; margin-bottom: 24px; overflow: hidden; }
+    .admin-card__header { display: flex; align-items: center; justify-content: space-between; padding: 18px 24px; background: var(--color-gray-50); border-bottom: 1px solid var(--color-gray-200); }
+    .admin-card__title { font-size: 15px; font-weight: 600; margin: 0; }
+    .admin-card__count { font-size: 12px; color: var(--color-gray-400); margin-left: 10px; font-weight: 400; }
+    .admin-btn { display: inline-flex; align-items: center; gap: 6px; padding: 8px 16px; border-radius: 4px; font-size: 12px; font-weight: 500; cursor: pointer; transition: all .2s; }
+    .admin-btn--primary { background: var(--color-black); color: var(--color-white); border: none; }
+    .admin-btn--primary:hover { background: var(--color-gray-700); }
+    .admin-btn--danger { background: transparent; color: #b91c1c; border: 1px solid #fecaca; }
+    .admin-btn--danger:hover { background: #fef2f2; }
+    .admin-btn--ghost { background: transparent; color: var(--color-gray-600); border: 1px solid var(--color-gray-300); }
+    .admin-btn--ghost:hover { background: var(--color-gray-100); }
+
+    .admin-list { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 12px; padding: 20px 24px; }
+    .admin-item { position: relative; border: 1px solid var(--color-gray-200); border-radius: 6px; padding: 16px; background: var(--color-white); transition: box-shadow .2s; cursor: pointer; }
+    .admin-item:hover { box-shadow: 0 4px 16px rgba(0,0,0,.08); }
+    .admin-item__thumb { width: 100%; height: 120px; object-fit: cover; border-radius: 4px; margin-bottom: 12px; background: var(--color-gray-100); }
+    .admin-item__name { font-size: 14px; font-weight: 600; margin: 0 0 4px; }
+    .admin-item__meta { font-size: 12px; color: var(--color-gray-400); margin: 0; }
+    .admin-item__actions { display: flex; gap: 8px; margin-top: 12px; }
+    .admin-item__actions .admin-btn { flex: 1; justify-content: center; padding: 6px 10px; font-size: 11px; }
+
+    .admin-empty { padding: 40px 24px; text-align: center; color: var(--color-gray-400); font-size: 13px; }
+
+    .admin-form label { display: block; font-size: 11px; font-weight: 500; letter-spacing: 0.06em; text-transform: uppercase; color: var(--color-gray-500); margin-bottom: 6px; }
+    .admin-form input, .admin-form textarea, .admin-form select { width: 100%; padding: 10px 12px; border: 1px solid var(--color-gray-200); border-radius: 4px; font-size: 13px; font-family: inherit; margin-bottom: 16px; background: var(--color-white); }
+    .admin-form input:focus, .admin-form textarea:focus, .admin-form select:focus { outline: none; border-color: var(--color-black); }
+    .admin-form textarea { min-height: 80px; resize: vertical; }
+    .admin-form__row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+    .admin-form__group { margin-bottom: 0; }
+
+    .color-row { display: flex; align-items: center; gap: 12px; margin-bottom: 10px; }
+    .color-row input[type="text"] { flex: 1; margin-bottom: 0; }
+    .color-row input[type="color"] { width: 44px; height: 36px; border: none; padding: 0; margin-bottom: 0; cursor: pointer; }
+    .acc-row { display: flex; gap: 8px; margin-bottom: 10px; }
+    .acc-row input { flex: 1; margin-bottom: 0; }
+    .acc-row .admin-btn { flex-shrink: 0; }
+
+    .param-row { display: grid; grid-template-columns: 1fr 1.5fr; gap: 12px; margin-bottom: 10px; }
+    .param-row input { margin-bottom: 0; }
+    .param-row label { margin-bottom: 0; }
+
+    .modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,.6); z-index: 1000; display: none; align-items: center; justify-content: center; padding: 20px; }
+    .modal-overlay.open { display: flex; }
+    .modal { background: var(--color-white); border-radius: 12px; max-width: 800px; width: 100%; max-height: 90vh; overflow-y: auto; padding: 32px; position: relative; }
+    .modal__close { position: absolute; top: 16px; right: 16px; width: 32px; height: 32px; border-radius: 50%; border: 1px solid var(--color-gray-300); background: var(--color-white); cursor: pointer; font-size: 18px; line-height: 1; }
+    .modal__close:hover { background: var(--color-black); color: var(--color-white); border-color: var(--color-black); }
+    .modal__title { font-size: 20px; font-weight: 600; margin: 0 0 24px; }
+
+    .toast { position: fixed; bottom: 24px; right: 24px; background: var(--color-black); color: var(--color-white); padding: 14px 20px; border-radius: 6px; font-size: 13px; box-shadow: 0 8px 24px rgba(0,0,0,.15); z-index: 1001; transform: translateY(100px); opacity: 0; transition: all .3s; }
+    .toast.show { transform: translateY(0); opacity: 1; }
+    .toast.error { background: #b91c1c; }
+    .toast.success { background: #15803d; }
+
+    @media (max-width: 768px) {
+      .console-page { padding: 100px 20px 60px; }
+      .admin-form__row { grid-template-columns: 1fr; }
+      .param-row { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav class="nav scrolled" id="mainNav">
+  <a href="../index.html" class="nav__logo"><img src="../logo.gif" alt="DINGQI"></a>
+  <ul class="nav__links">
+    <li><a href="products.html" class="nav__link">Products</a></li>
+    <li><a href="projects.html" class="nav__link">Projects</a></li>    <li><a href="about.html" class="nav__link">About Us</a></li>
+    <li><a href="contact.html" class="nav__link">Contact</a></li>
+  </ul>
+  <div class="nav__actions">
+    <button class="nav__search-btn" aria-label="Search">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="11" cy="11" r="7"/><line x1="16.5" y1="16.5" x2="22" y2="22"/></svg>
+    </button>
+    <span class="nav__auth"></span>
+  </div>
+</nav>
+
+<div class="console-page">
+  <div class="console__header">
+    <h1 class="console__title">管理控制台</h1>
+    <p class="console__sub">仅管理员可访问。在这里管理产品目录和首页内容。</p>
+  </div>
+
+  <div class="console__tabs">
+    <button class="console__tab active" data-panel="products">产品管理</button>
+    <button class="console__tab" data-panel="home">照明项目管理</button>
+  </div>
+
+  <!-- 产品管理 -->
+  <div class="console__panel active" id="panel-products">
+
+    <!-- Categories -->
+    <div class="admin-card">
+      <div class="admin-card__header">
+        <div>
+          <span class="admin-card__title">大分类</span>
+          <span class="admin-card__count" id="catCount">0 个</span>
+        </div>
+        <button class="admin-btn admin-btn--primary" onclick="openCategoryModal()">+ 添加大分类</button>
+      </div>
+      <div class="admin-list" id="catList"></div>
+    </div>
+
+    <!-- Series -->
+    <div class="admin-card">
+      <div class="admin-card__header">
+        <div>
+          <span class="admin-card__title">子分类</span>
+          <span class="admin-card__count" id="serCount">0 个</span>
+        </div>
+        <button class="admin-btn admin-btn--primary" onclick="openSeriesModal()">+ 添加子分类</button>
+      </div>
+      <div class="admin-list" id="serList"></div>
+    </div>
+
+    <!-- Products -->
+    <div class="admin-card">
+      <div class="admin-card__header">
+        <div>
+          <span class="admin-card__title">产品</span>
+          <span class="admin-card__count" id="prodCount">0 个</span>
+        </div>
+        <button class="admin-btn admin-btn--primary" onclick="openProductModal()">+ 添加产品</button>
+      </div>
+      <div class="admin-list" id="prodList"></div>
+    </div>
+
+  </div>
+
+  <!-- 照明项目管理 -->
+  <div class="console__panel" id="panel-home">
+    <div class="admin-card">
+      <div class="admin-card__header">
+        <div>
+          <span class="admin-card__title">照明项目</span>
+          <span class="admin-card__count" id="projCount">0 个</span>
+        </div>
+        <button class="admin-btn admin-btn--primary" onclick="openProjectModal()">+ 添加项目</button>
+      </div>
+      <div class="admin-list" id="projList"></div>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL -->
+<div class="modal-overlay" id="modalOverlay" onclick="if(event.target===this)closeModal()">
+  <div class="modal" id="modal"></div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+<script src="../js/supabase-client.js"></script>
+<script src="../js/product-data.js"></script>
+<script src="../js/products-db.js"></script>
+<script src="../js/auth.js"></script>
+<script src="../js/main.js"></script>
+
+<script>
+// ===== Admin check =====
+async function checkAdmin() {
+  await Auth.init();
+  if (!Auth.isLoggedIn || !Auth.isAdmin) {
+    alert('您没有管理员权限，无法访问控制台。');
+    window.location.href = 'login.html';
+    return false;
+  }
+  return true;
+}
+
+// ===== Tabs =====
+document.querySelectorAll('.console__tab').forEach(tab => {
+  tab.addEventListener('click', () => {
+    document.querySelectorAll('.console__tab').forEach(t => t.classList.remove('active'));
+    document.querySelectorAll('.console__panel').forEach(p => p.classList.remove('active'));
+    tab.classList.add('active');
+    document.getElementById('panel-' + tab.dataset.panel).classList.add('active');
+  });
+});
+
+// ===== UI Helpers =====
+function showToast(msg, type = 'success') {
+  const el = document.getElementById('toast');
+  el.textContent = msg;
+  el.className = 'toast ' + type;
+  setTimeout(() => el.classList.add('show'), 10);
+  setTimeout(() => el.classList.remove('show'), 3000);
+}
+
+function openModal(html) {
+  document.getElementById('modal').innerHTML = `
+    <button class="modal__close" onclick="closeModal()">&times;</button>
+    ${html}
+  `;
+  document.getElementById('modalOverlay').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+
+function closeModal() {
+  document.getElementById('modalOverlay').classList.remove('open');
+  document.body.style.overflow = '';
+}
+
+function getImgUrl(url) {
+  if (!url) return '';
+  if (url.startsWith('http://') || url.startsWith('https://')) return url;
+  return '../' + url;
+}
+
+// ===== Render lists =====
+function renderAll() {
+  const data = Catalog.data;
+  renderCategories(data);
+  renderSeries(data);
+  renderProducts(data);
+}
+
+function renderCategories(data) {
+  const list = document.getElementById('catList');
+  document.getElementById('catCount').textContent = `${data.length} 个`;
+
+  if (data.length === 0) {
+    list.innerHTML = '<div class="admin-empty">暂无大分类，点击右上角添加。</div>';
+    return;
+  }
+
+  list.innerHTML = data.map((cat, i) => {
+    const total = cat.series.reduce((s, ser) => s + (ser.models?.length || 0), 0);
+    return `
+    <div class="admin-item">
+      <div style="height:80px;border-radius:4px;margin-bottom:12px;background:${cat.gradient || '#333'}"></div>
+      <p class="admin-item__name">${cat.categoryName}</p>
+      <p class="admin-item__meta">${cat.series.length} 个子分类 · ${total} 个产品</p>
+      <div class="admin-item__actions">
+        <button class="admin-btn admin-btn--ghost" onclick="openCategoryModal('${cat.id}')">编辑</button>
+        <button class="admin-btn admin-btn--danger" onclick="deleteCategory('${cat.id}', '${cat.categoryName.replace(/'/g, "\\'")}')">删除</button>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+function renderSeries(data) {
+  const list = document.getElementById('serList');
+  const allSeries = data.flatMap(c => c.series.map(s => ({ ...s, categoryName: c.categoryName })));
+  document.getElementById('serCount').textContent = `${allSeries.length} 个`;
+
+  if (allSeries.length === 0) {
+    list.innerHTML = '<div class="admin-empty">暂无子分类。</div>';
+    return;
+  }
+
+  list.innerHTML = allSeries.map((ser, i) => {
+    const cover = ser.cover || ser.models?.[0]?.realImg || '';
+    return `
+    <div class="admin-item">
+      <img class="admin-item__thumb" src="${getImgUrl(cover)}" alt="${ser.name}" onerror="this.src='data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 width=%22240%22 height=%22120%22><rect fill=%22%23f0f0f0%22 width=%22240%22 height=%22120%22/><text x=%22120%22 y=%2265%22 text-anchor=%22middle%22 fill=%22%23999%22 font-size=%2212%22>无封面</text></svg>'">
+      <p class="admin-item__name">${ser.name}</p>
+      <p class="admin-item__meta">${ser.categoryName} · ${ser.models.length} 个产品</p>
+      <div class="admin-item__actions">
+        <button class="admin-btn admin-btn--ghost" onclick="openSeriesModal('${ser.id}')">编辑</button>
+        <button class="admin-btn admin-btn--danger" onclick="deleteSeries('${ser.id}', '${ser.name.replace(/'/g, "\\'")}')">删除</button>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+function renderProducts(data) {
+  const list = document.getElementById('prodList');
+  const allProducts = [];
+  data.forEach(cat => {
+    cat.series.forEach(ser => {
+      ser.models.forEach(p => {
+        allProducts.push({ ...p, seriesName: ser.name, categoryName: cat.categoryName });
+      });
+    });
+  });
+  document.getElementById('prodCount').textContent = `${allProducts.length} 个`;
+
+  if (allProducts.length === 0) {
+    list.innerHTML = '<div class="admin-empty">暂无产品。</div>';
+    return;
+  }
+
+  list.innerHTML = allProducts.map(p => `
+    <div class="admin-item">
+      <img class="admin-item__thumb" src="${getImgUrl(p.realImg)}" alt="${p.name}" onerror="this.src='data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 width=%22240%22 height=%22120%22><rect fill=%22%23f0f0f0%22 width=%22240%22 height=%22120%22/><text x=%22120%22 y=%2265%22 text-anchor=%22middle%22 fill=%22%23999%22 font-size=%2212%22>无图片</text></svg>'">
+      <p class="admin-item__name">${p.name}</p>
+      <p class="admin-item__meta">${p.categoryName} / ${p.seriesName}</p>
+      <div class="admin-item__actions">
+        <button class="admin-btn admin-btn--ghost" onclick="openProductModal('${p.db_id}')">编辑</button>
+        <button class="admin-btn admin-btn--danger" onclick="deleteProduct('${p.db_id}', '${p.name.replace(/'/g, "\\'")}')">删除</button>
+      </div>
+    </div>
+  `).join('');
+}
+
+// ===== Category Modal =====
+function openCategoryModal(id) {
+  const data = Catalog.data;
+  const cat = id ? data.find(c => c.id === id) : null;
+  const title = cat ? '编辑大分类' : '添加大分类';
+
+  openModal(`
+    <h2 class="modal__title">${title}</h2>
+    <form class="admin-form" onsubmit="return saveCategory(event, '${id || ''}')">
+      <label>大分类名称</label>
+      <input type="text" name="name" required value="${cat ? cat.categoryName.replace(/"/g, '&quot;') : ''}">
+
+      <label>背景渐变色 CSS</label>
+      <input type="text" name="gradient" placeholder="例如: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%)" value="${cat ? cat.gradient.replace(/"/g, '&quot;') : ''}">
+
+      <button type="submit" class="admin-btn admin-btn--primary">保存</button>
+    </form>
+  `);
+}
+
+async function saveCategory(e, id) {
+  e.preventDefault();
+  const fd = new FormData(e.target);
+  const payload = { name: fd.get('name'), gradient: fd.get('gradient') };
+  try {
+    if (id) await Catalog.updateCategory(id, payload);
+    else await Catalog.addCategory(payload);
+    showToast(id ? '大分类已更新' : '大分类已添加');
+    closeModal();
+  } catch (err) {
+    showToast('保存失败: ' + err.message, 'error');
+  }
+  return false;
+}
+
+async function deleteCategory(id, name) {
+  if (!confirm(`确定删除大分类 "${name}"？\n其下所有子分类和产品都会被删除！`)) return;
+  try {
+    await Catalog.deleteCategory(id);
+    showToast('大分类已删除');
+  } catch (err) {
+    showToast('删除失败: ' + err.message, 'error');
+  }
+}
+
+// ===== Series Modal =====
+function openSeriesModal(id) {
+  const data = Catalog.data;
+  const allSeries = data.flatMap(c => c.series.map(s => ({ ...s, categoryId: c.id, categoryName: c.categoryName })));
+  const ser = id ? allSeries.find(s => s.id === id) : null;
+  const title = ser ? '编辑子分类' : '添加子分类';
+  const selectedCat = ser ? ser.categoryId : (data[0]?.id || '');
+
+  const catOptions = data.map(c => `<option value="${c.id}" ${c.id === selectedCat ? 'selected' : ''}>${c.categoryName}</option>`).join('');
+
+  openModal(`
+    <h2 class="modal__title">${title}</h2>
+    <form class="admin-form" onsubmit="return saveSeries(event, '${id || ''}')">
+      <label>所属大分类</label>
+      <select name="category_id" required>${catOptions}</select>
+
+      <label>子分类名称</label>
+      <input type="text" name="name" required value="${ser ? ser.name.replace(/"/g, '&quot;') : ''}">
+
+      <label>描述</label>
+      <input type="text" name="description" value="${ser ? ser.desc.replace(/"/g, '&quot;') : ''}">
+
+      <label>封面图 URL</label>
+      <input type="text" name="cover_image" placeholder="图片链接" value="${ser ? (ser.cover || '').replace(/"/g, '&quot;') : ''}">
+
+      <button type="submit" class="admin-btn admin-btn--primary">保存</button>
+    </form>
+  `);
+}
+
+async function saveSeries(e, id) {
+  e.preventDefault();
+  const fd = new FormData(e.target);
+  const payload = {
+    category_id: fd.get('category_id'),
+    name: fd.get('name'),
+    description: fd.get('description'),
+    cover_image: fd.get('cover_image')
+  };
+  try {
+    if (id) await Catalog.updateSeries(id, payload);
+    else await Catalog.addSeries(payload);
+    showToast(id ? '子分类已更新' : '子分类已添加');
+    closeModal();
+  } catch (err) {
+    showToast('保存失败: ' + err.message, 'error');
+  }
+  return false;
+}
+
+async function deleteSeries(id, name) {
+  if (!confirm(`确定删除子分类 "${name}"？\n其下所有产品都会被删除！`)) return;
+  try {
+    await Catalog.deleteSeries(id);
+    showToast('子分类已删除');
+  } catch (err) {
+    showToast('删除失败: ' + err.message, 'error');
+  }
+}
+
+// ===== Product Modal =====
+const PARAM_LABELS = [
+  'Model No.', 'Power', 'Color Temperature', 'Beam Angle', 'CRI',
+  'Luminous Efficacy', 'Ingress Protection (IP)', 'Rated Life (hours)',
+  'LED Chip', 'Cut-out Diameter', 'Voltage', 'Mounting Type', 'Bezel Color'
+];
+
+function openProductModal(id) {
+  const data = Catalog.data;
+  const allProducts = [];
+  data.forEach(cat => cat.series.forEach(ser => ser.models.forEach(m => allProducts.push({ ...m, seriesId: ser.id, seriesName: ser.name, categoryName: cat.categoryName }))));
+  const prod = id ? allProducts.find(p => p.db_id === id) : null;
+  const title = prod ? '编辑产品' : '添加产品';
+
+  const selectedSeries = prod ? prod.seriesId : (data[0]?.series?.[0]?.id || '');
+  const seriesOptions = data.flatMap(c => c.series.map(s => `<option value="${s.id}" ${s.id === selectedSeries ? 'selected' : ''}>${c.categoryName} / ${s.name}</option>`)).join('');
+
+  const params = prod ? prod.params : [];
+  const paramsHTML = PARAM_LABELS.map((label, i) => {
+    const existing = params.find(p => p.label === label);
+    return `
+    <div class="param-row">
+      <label>${label}</label>
+      <input type="text" name="param_${label.replace(/[^a-zA-Z0-9]/g, '_')}" value="${existing ? existing.value.replace(/"/g, '&quot;') : ''}">
+    </div>`;
+  }).join('');
+
+  const colors = prod ? prod.colors : [{ name: '', hex: '#000000' }];
+  const colorsHTML = colors.map((c, i) => `
+    <div class="color-row" data-idx="${i}">
+      <input type="text" name="color_name_${i}" placeholder="颜色名称" value="${c.name.replace(/"/g, '&quot;')}">
+      <input type="color" name="color_hex_${i}" value="${c.hex}">
+      <button type="button" class="admin-btn admin-btn--danger" onclick="this.parentElement.remove()">删除</button>
+    </div>
+  `).join('');
+
+  const accs = prod ? prod.accessories : [''];
+  const accHTML = accs.map((a, i) => `
+    <div class="acc-row" data-idx="${i}">
+      <input type="text" name="acc_${i}" placeholder="配件名称" value="${a.replace(/"/g, '&quot;')}">
+      <button type="button" class="admin-btn admin-btn--danger" onclick="this.parentElement.remove()">删除</button>
+    </div>
+  `).join('');
+
+  openModal(`
+    <h2 class="modal__title">${title}</h2>
+    <form class="admin-form" onsubmit="return saveProduct(event, '${id || ''}')">
+      <label>所属子分类</label>
+      <select name="series_id" required>${seriesOptions}</select>
+
+      <div class="admin-form__row">
+        <div class="admin-form__group">
+          <label>型号编号</label>
+          <input type="text" name="product_id" required value="${prod ? prod.id.replace(/"/g, '&quot;') : ''}">
+        </div>
+        <div class="admin-form__group">
+          <label>产品名称</label>
+          <input type="text" name="name" required value="${prod ? prod.name.replace(/"/g, '&quot;') : ''}">
+        </div>
+      </div>
+
+      <label>实物图 URL</label>
+      <input type="text" name="real_image" placeholder="图片链接" value="${prod ? prod.realImg.replace(/"/g, '&quot;') : ''}">
+
+      <label>线条图 URL</label>
+      <input type="text" name="line_image" placeholder="图片链接" value="${prod ? prod.lineImg.replace(/"/g, '&quot;') : ''}">
+
+      <label>产品参数</label>
+      ${paramsHTML}
+
+      <label>颜色（至少设置一个）</label>
+      <div id="colorList">${colorsHTML}</div>
+      <button type="button" class="admin-btn admin-btn--ghost" onclick="addColorRow()" style="margin-bottom:16px;">+ 添加颜色</button>
+
+      <label>配件</label>
+      <div id="accList">${accHTML}</div>
+      <button type="button" class="admin-btn admin-btn--ghost" onclick="addAccRow()" style="margin-bottom:16px;">+ 添加配件</button>
+
+      <label>安装方式</label>
+      <textarea name="installation_method" placeholder="请输入安装方式说明">${prod ? (prod.installation_method || '').replace(/"/g, '&quot;') : ''}</textarea>
+
+      <label>选项</label>
+      <textarea name="options_text" placeholder="请输入选项说明">${prod ? (prod.options_text || '').replace(/"/g, '&quot;') : ''}</textarea>
+
+      <button type="submit" class="admin-btn admin-btn--primary">保存</button>
+    </form>
+  `);
+}
+
+function addColorRow() {
+  const idx = document.querySelectorAll('#colorList .color-row').length;
+  const row = document.createElement('div');
+  row.className = 'color-row';
+  row.innerHTML = `
+    <input type="text" name="color_name_${idx}" placeholder="颜色名称">
+    <input type="color" name="color_hex_${idx}" value="#000000">
+    <button type="button" class="admin-btn admin-btn--danger" onclick="this.parentElement.remove()">删除</button>
+  `;
+  document.getElementById('colorList').appendChild(row);
+}
+
+function addAccRow() {
+  const idx = document.querySelectorAll('#accList .acc-row').length;
+  const row = document.createElement('div');
+  row.className = 'acc-row';
+  row.innerHTML = `
+    <input type="text" name="acc_${idx}" placeholder="配件名称">
+    <button type="button" class="admin-btn admin-btn--danger" onclick="this.parentElement.remove()">删除</button>
+  `;
+  document.getElementById('accList').appendChild(row);
+}
+
+async function saveProduct(e, id) {
+  e.preventDefault();
+  const fd = new FormData(e.target);
+
+  const params = PARAM_LABELS.map(label => {
+    const key = 'param_' + label.replace(/[^a-zA-Z0-9]/g, '_');
+    return { label, value: fd.get(key) || '' };
+  }).filter(p => p.value);
+
+  const colors = [];
+  document.querySelectorAll('#colorList .color-row').forEach(row => {
+    const name = row.querySelector('input[type="text"]').value.trim();
+    const hex = row.querySelector('input[type="color"]').value;
+    if (name) colors.push({ name, hex });
+  });
+  if (colors.length === 0) {
+    showToast('请至少设置一个颜色', 'error');
+    return false;
+  }
+
+  const accessories = [];
+  document.querySelectorAll('#accList .acc-row input').forEach(input => {
+    if (input.value.trim()) accessories.push(input.value.trim());
+  });
+
+  const payload = {
+    series_id: fd.get('series_id'),
+    product_id: fd.get('product_id'),
+    name: fd.get('name'),
+    real_image: fd.get('real_image'),
+    line_image: fd.get('line_image'),
+    params,
+    colors,
+    accessories,
+    installation_method: fd.get('installation_method'),
+    options_text: fd.get('options_text')
+  };
+
+  try {
+    if (id) await Catalog.updateProduct(id, payload);
+    else await Catalog.addProduct(payload);
+    showToast(id ? '产品已更新' : '产品已添加');
+    closeModal();
+  } catch (err) {
+    showToast('保存失败: ' + err.message, 'error');
+  }
+  return false;
+}
+
+async function deleteProduct(id, name) {
+  if (!confirm(`确定删除产品 "${name}"？`)) return;
+  try {
+    await Catalog.deleteProduct(id);
+    showToast('产品已删除');
+  } catch (err) {
+    showToast('删除失败: ' + err.message, 'error');
+  }
+}
+
+// ===== Lighting Project Management (localStorage) =====
+const PROJECTS_KEY = 'dingqi_lighting_projects';
+
+const defaultProjects = [
+  { id: 'proj_1', name: 'Hotel Bécquer', category: 'Hospitality', location: 'Seville, Spain', img: '', text: 'Hotel lighting project featuring DINGQI recessed downlights and track systems.' },
+  { id: 'proj_2', name: 'Dentop Clinic', category: 'Healthcare', location: 'Bucharest, Romania', img: '', text: 'Healthcare lighting with high CRI downlights for clinical environments.' },
+  { id: 'proj_3', name: 'ChiroHype GmbH', category: 'Office', location: 'Germany', img: '', text: 'Modern office lighting with surface mounted LED downlights.' },
+  { id: 'proj_4', name: 'Casa Duna', category: 'Residential', location: 'Alicante, Spain', img: '', text: 'Residential villa with magnetic LED track lighting throughout.' },
+  { id: 'proj_5', name: 'GEMÜ Holding GmbH', category: 'Office', location: 'Germany', img: '', text: 'Corporate headquarters illuminated with DINGQI track and recessed lighting.' },
+  { id: 'proj_6', name: 'Roca Flagship', category: 'Retail', location: 'Barcelona, Spain', img: '', text: 'Flagship retail store featuring precise accent track lighting.' },
+  { id: 'proj_7', name: 'Catholic University', category: 'Education', location: 'Valencia, Spain', img: '', text: 'Educational facility with efficient LED lighting throughout classrooms.' },
+  { id: 'proj_8', name: 'Casa Pujol', category: 'Residential', location: 'Barcelona, Spain', img: '', text: 'Residential project with recessed downlights and decorative luminaires.' },
+  { id: 'proj_9', name: "Jenkin's", category: 'Retail', location: 'Madrid, Spain', img: '', text: 'Retail space with track lighting for merchandise display.' },
+  { id: 'proj_10', name: 'Raymat Castle', category: 'Heritage', location: 'Lleida, Spain', img: '', text: 'Heritage building with architectural LED lighting solutions.' },
+  { id: 'proj_11', name: 'G01 Residential Villa', category: 'Residential', location: 'United Arab Emirates', img: '', text: 'Luxury villa with full DINGQI lighting system.' },
+  { id: 'proj_12', name: 'Bākkō', category: 'Restaurant', location: 'Tokyo, Japan', img: '', text: 'Restaurant ambiance lighting with warm-toned LED track lights.' }
+];
+
+function getProjects() {
+  try {
+    const stored = localStorage.getItem(PROJECTS_KEY);
+    if (stored) return JSON.parse(stored);
+  } catch (e) {}
+  return [...defaultProjects];
+}
+
+function saveProjects(projects) {
+  localStorage.setItem(PROJECTS_KEY, JSON.stringify(projects));
+}
+
+function renderProjects() {
+  const projects = getProjects();
+  const list = document.getElementById('projList');
+  const countEl = document.getElementById('projCount');
+  if (countEl) countEl.textContent = projects.length + ' 个';
+
+  if (projects.length === 0) {
+    list.innerHTML = '<div class="admin-empty">暂无照明项目，点击右上角添加。</div>';
+    return;
+  }
+
+  list.innerHTML = projects.map(p => `
+    <div class="admin-item">
+      ${p.img ? `<img class="admin-item__thumb" src="${p.img}" alt="${p.name}" onerror="this.src='data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 width=%22240%22 height=%22120%22><rect fill=%22%23f0f0f0%22 width=%22240%22 height=%22120%22/><text x=%22120%22 y=%2265%22 text-anchor=%22middle%22 fill=%22%23999%22 font-size=%2212%22>无图片</text></svg>'">` : `<div style="height:120px;border-radius:4px;margin-bottom:12px;background:linear-gradient(135deg,#2c2c2c,#1a1a1a);display:flex;align-items:center;justify-content:center;color:#666;font-size:12px;">暂无图片</div>`}
+      <p class="admin-item__name">${p.name}</p>
+      <p class="admin-item__meta">${p.category} · ${p.location}</p>
+      <div class="admin-item__actions">
+        <button class="admin-btn admin-btn--ghost" onclick="openProjectModal('${p.id}')">编辑</button>
+        <button class="admin-btn admin-btn--danger" onclick="deleteProject('${p.id}', '${p.name.replace(/'/g, "\\'")}')">删除</button>
+      </div>
+    </div>
+  `).join('');
+}
+
+function openProjectModal(id) {
+  const projects = getProjects();
+  const proj = id ? projects.find(p => p.id === id) : null;
+  const title = proj ? '编辑照明项目' : '添加照明项目';
+
+  openModal(`
+    <h2 class="modal__title">${title}</h2>
+    <form class="admin-form" onsubmit="return saveProject(event, '${id || ''}')">
+      <div class="admin-form__row">
+        <div class="admin-form__group">
+          <label>项目名称</label>
+          <input type="text" name="name" required value="${proj ? proj.name.replace(/"/g, '&quot;') : ''}">
+        </div>
+        <div class="admin-form__group">
+          <label>分类</label>
+          <input type="text" name="category" placeholder="如：Hospitality, Office, Retail..." value="${proj ? proj.category.replace(/"/g, '&quot;') : ''}">
+        </div>
+      </div>
+      <div class="admin-form__row">
+        <div class="admin-form__group">
+          <label>地点</label>
+          <input type="text" name="location" value="${proj ? proj.location.replace(/"/g, '&quot;') : ''}">
+        </div>
+        <div class="admin-form__group">
+          <label>图片 URL</label>
+          <input type="text" name="img" placeholder="项目图片链接" value="${proj ? (proj.img || '').replace(/"/g, '&quot;') : ''}">
+        </div>
+      </div>
+      <label>项目描述</label>
+      <textarea name="text" rows="4" placeholder="请输入项目描述文本">${proj ? (proj.text || '').replace(/"/g, '&quot;') : ''}</textarea>
+      <button type="submit" class="admin-btn admin-btn--primary">保存</button>
+    </form>
+  `);
+}
+
+function saveProject(e, id) {
+  e.preventDefault();
+  const fd = new FormData(e.target);
+  const projects = getProjects();
+
+  const payload = {
+    name: fd.get('name'),
+    category: fd.get('category'),
+    location: fd.get('location'),
+    img: fd.get('img'),
+    text: fd.get('text')
+  };
+
+  if (id) {
+    const idx = projects.findIndex(p => p.id === id);
+    if (idx >= 0) {
+      projects[idx] = { ...projects[idx], ...payload };
+    }
+  } else {
+    payload.id = 'proj_' + Date.now();
+    projects.push(payload);
+  }
+
+  saveProjects(projects);
+  renderProjects();
+  showToast(id ? '项目已更新' : '项目已添加');
+  closeModal();
+  return false;
+}
+
+function deleteProject(id, name) {
+  if (!confirm(`确定删除照明项目 "${name}"？`)) return;
+  let projects = getProjects();
+  projects = projects.filter(p => p.id !== id);
+  saveProjects(projects);
+  renderProjects();
+  showToast('项目已删除');
+}
+
+// ===== Init =====
+(async function init() {
+  const ok = await checkAdmin();
+  if (!ok) return;
+  await Catalog.load();
+  renderAll();
+  renderProjects();
+  Catalog.onChange(() => renderAll());
+})();
+</script>
+</body>
+</html>
