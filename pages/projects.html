@@ -160,7 +160,7 @@
     var h = randHeight();
     var bg = gradients[i % gradients.length];
     if (p.img) {
-      return '<a href="project-detail.html" class="projects-masonry-item">' +
+      return '<a href="project-detail.html?id=' + p.id + '" class="projects-masonry-item">' +
         '<img src="' + p.img + '" style="width:100%;height:' + h + 'px;object-fit:cover;" alt="' + p.name + '" onerror="this.style.display=\'none\';this.nextElementSibling.style.display=\'flex\';this.nextElementSibling.style.height=\'' + h + 'px\';">' +
         '<div class="pj-placeholder" style="display:none;height:' + h + 'px;background:' + bg + ';"></div>' +
         '<div class="overlay"></div>' +
@@ -171,7 +171,7 @@
         '</div>' +
       '</a>';
     }
-    return '<a href="project-detail.html" class="projects-masonry-item">' +
+    return '<a href="project-detail.html?id=' + p.id + '" class="projects-masonry-item">' +
       '<div class="pj-placeholder" style="height:' + h + 'px;background:' + bg + ';"></div>' +
       '<div class="overlay"></div>' +
       '<div class="info">' +

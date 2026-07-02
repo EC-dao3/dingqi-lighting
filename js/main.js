@@ -119,18 +119,18 @@ document.addEventListener('DOMContentLoaded', () => {
       if (stored) return JSON.parse(stored);
     } catch(e) {}
     return [
-      { id:'proj_1', name:'Hotel Bécquer', type:'Project', category:'Hospitality', location:'Seville, Spain', img:'', text:'Hotel lighting project featuring DINGQI recessed downlights and track systems.', url:'pages/projects.html' },
-      { id:'proj_2', name:'Dentop Clinic', type:'Project', category:'Healthcare', location:'Bucharest, Romania', img:'', text:'Healthcare lighting with high CRI downlights for clinical environments.', url:'pages/projects.html' },
-      { id:'proj_3', name:'ChiroHype GmbH', type:'Project', category:'Office', location:'Germany', img:'', text:'Modern office lighting with surface mounted LED downlights.', url:'pages/projects.html' },
-      { id:'proj_4', name:'Casa Duna', type:'Project', category:'Residential', location:'Alicante, Spain', img:'', text:'Residential villa with magnetic LED track lighting throughout.', url:'pages/projects.html' },
-      { id:'proj_5', name:'GEMÜ Holding GmbH', type:'Project', category:'Office', location:'Germany', img:'', text:'Corporate headquarters illuminated with DINGQI track and recessed lighting.', url:'pages/projects.html' },
-      { id:'proj_6', name:'Roca Flagship', type:'Project', category:'Retail', location:'Barcelona, Spain', img:'', text:'Flagship retail store featuring precise accent track lighting.', url:'pages/projects.html' },
-      { id:'proj_7', name:'Catholic University', type:'Project', category:'Education', location:'Valencia, Spain', img:'', text:'Educational facility with efficient LED lighting throughout classrooms.', url:'pages/projects.html' },
-      { id:'proj_8', name:'Casa Pujol', type:'Project', category:'Residential', location:'Barcelona, Spain', img:'', text:'Residential project with recessed downlights and decorative luminaires.', url:'pages/projects.html' },
-      { id:'proj_9', name:"Jenkin's", type:'Project', category:'Retail', location:'Madrid, Spain', img:'', text:'Retail space with track lighting for merchandise display.', url:'pages/projects.html' },
-      { id:'proj_10', name:'Raymat Castle', type:'Project', category:'Heritage', location:'Lleida, Spain', img:'', text:'Heritage building with architectural LED lighting solutions.', url:'pages/projects.html' },
-      { id:'proj_11', name:'G01 Residential Villa', type:'Project', category:'Residential', location:'United Arab Emirates', img:'', text:'Luxury villa with full DINGQI lighting system.', url:'pages/projects.html' },
-      { id:'proj_12', name:'Bākkō', type:'Project', category:'Restaurant', location:'Tokyo, Japan', img:'', text:'Restaurant ambiance lighting with warm-toned LED track lights.', url:'pages/projects.html' }
+      { id:'proj_1', name:'Hotel Bécquer', type:'Project', category:'Hospitality', location:'Seville, Spain', img:'', text:'Hotel lighting project featuring DINGQI recessed downlights and track systems.', url:'pages/project-detail.html?id=proj_1' },
+      { id:'proj_2', name:'Dentop Clinic', type:'Project', category:'Healthcare', location:'Bucharest, Romania', img:'', text:'Healthcare lighting with high CRI downlights for clinical environments.', url:'pages/project-detail.html?id=proj_2' },
+      { id:'proj_3', name:'ChiroHype GmbH', type:'Project', category:'Office', location:'Germany', img:'', text:'Modern office lighting with surface mounted LED downlights.', url:'pages/project-detail.html?id=proj_3' },
+      { id:'proj_4', name:'Casa Duna', type:'Project', category:'Residential', location:'Alicante, Spain', img:'', text:'Residential villa with magnetic LED track lighting throughout.', url:'pages/project-detail.html?id=proj_4' },
+      { id:'proj_5', name:'GEMÜ Holding GmbH', type:'Project', category:'Office', location:'Germany', img:'', text:'Corporate headquarters illuminated with DINGQI track and recessed lighting.', url:'pages/project-detail.html?id=proj_5' },
+      { id:'proj_6', name:'Roca Flagship', type:'Project', category:'Retail', location:'Barcelona, Spain', img:'', text:'Flagship retail store featuring precise accent track lighting.', url:'pages/project-detail.html?id=proj_6' },
+      { id:'proj_7', name:'Catholic University', type:'Project', category:'Education', location:'Valencia, Spain', img:'', text:'Educational facility with efficient LED lighting throughout classrooms.', url:'pages/project-detail.html?id=proj_7' },
+      { id:'proj_8', name:'Casa Pujol', type:'Project', category:'Residential', location:'Barcelona, Spain', img:'', text:'Residential project with recessed downlights and decorative luminaires.', url:'pages/project-detail.html?id=proj_8' },
+      { id:'proj_9', name:"Jenkin's", type:'Project', category:'Retail', location:'Madrid, Spain', img:'', text:'Retail space with track lighting for merchandise display.', url:'pages/project-detail.html?id=proj_9' },
+      { id:'proj_10', name:'Raymat Castle', type:'Project', category:'Heritage', location:'Lleida, Spain', img:'', text:'Heritage building with architectural LED lighting solutions.', url:'pages/project-detail.html?id=proj_10' },
+      { id:'proj_11', name:'G01 Residential Villa', type:'Project', category:'Residential', location:'United Arab Emirates', img:'', text:'Luxury villa with full DINGQI lighting system.', url:'pages/project-detail.html?id=proj_11' },
+      { id:'proj_12', name:'Bākkō', type:'Project', category:'Restaurant', location:'Tokyo, Japan', img:'', text:'Restaurant ambiance lighting with warm-toned LED track lights.', url:'pages/project-detail.html?id=proj_12' }
     ];
   }
 
@@ -215,15 +215,21 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     searchSuggestions.classList.add('search-suggestions--results');
-    searchSuggestions.innerHTML = results.map(r => `
-      <a href="${getSearchBasePath()}${r.url}" class="search-result" style="display:flex;align-items:center;justify-content:space-between;padding:12px 16px;text-decoration:none;color:#111;transition:background .15s;" onmouseover="this.style.background='#f9f9f9'" onmouseout="this.style.background='transparent'">
+    searchSuggestions.innerHTML = results.map(r => {
+      const isProject = r.type === 'Project';
+      const href = isProject && r.id
+        ? `${getSearchBasePath()}pages/project-detail.html?id=${r.id}`
+        : `${getSearchBasePath()}${r.url}`;
+      return `
+      <a href="${href}" class="search-result" style="display:flex;align-items:center;justify-content:space-between;padding:12px 16px;text-decoration:none;color:#111;transition:background .15s;" onmouseover="this.style.background='#f9f9f9'" onmouseout="this.style.background='transparent'">
         <div>
           <p style="margin:0;font-size:14px;font-weight:500;">${escapeHtml(r.name)}</p>
           <p style="margin:4px 0 0;font-size:11px;color:#999;">${escapeHtml(r.type)} · ${escapeHtml(r.category || '')}</p>
         </div>
         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#999" stroke-width="1.5"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
       </a>
-    `).join('');
+    `;
+    }).join('');
   }
 
   function escapeHtml(str) {
@@ -403,7 +409,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const shuffled = [...allProjects].sort(() => Math.random() - 0.5);
     const selected = shuffled.slice(0, 6);
 
-    // Array of gradient backgrounds for variety
+    // Gradient fallback for projects without an image
     const gradients = [
       'linear-gradient(145deg, #1a2030, #2a3040, #1a2030)',
       'linear-gradient(145deg, #f5f0e8, #e8e0d0, #f0ece4)',
@@ -413,8 +419,16 @@ document.addEventListener('DOMContentLoaded', () => {
       'linear-gradient(145deg, #102018, #203028, #102018)'
     ];
 
-    bento.innerHTML = selected.map((p, i) => `
-      <a href="pages/project-detail.html" class="project-card" style="grid-column:span 1;aspect-ratio:4/3;background:${gradients[i % gradients.length]};">
+    const basePath = window.location.pathname.includes('/pages/') ? '../' : '';
+
+    bento.innerHTML = selected.map((p, i) => {
+      const bg = gradients[i % gradients.length];
+      const imgHtml = p.img
+        ? `<img class="project-card__img" src="${p.img}" alt="${escapeHtml(p.name)}" loading="lazy" onerror="this.style.display='none';this.parentElement.style.background='${bg}';">`
+        : '';
+      return `
+      <a href="${basePath}pages/project-detail.html?id=${p.id}" class="project-card" style="grid-column:span 1;aspect-ratio:4/3;background:${p.img ? '#f5f5f5' : bg};">
+        ${imgHtml}
         <div class="project-card__overlay"></div>
         <div class="project-card__info">
           <p class="project-card__type">${escapeHtml(p.category)}</p>
@@ -422,7 +436,8 @@ document.addEventListener('DOMContentLoaded', () => {
           <p class="project-card__location">${escapeHtml(p.location || '')}</p>
         </div>
       </a>
-    `).join('');
+    `;
+    }).join('');
   }
 
   initHomeProductRange();
