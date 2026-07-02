@@ -427,7 +427,7 @@ document.addEventListener('DOMContentLoaded', () => {
         ? `<img class="project-card__img" src="${p.img}" alt="${escapeHtml(p.name)}" loading="lazy" onerror="this.style.display='none';this.parentElement.style.background='${bg}';">`
         : '';
       return `
-      <a href="${basePath}pages/project-detail.html?id=${p.id}" class="project-card" style="grid-column:span 1;aspect-ratio:4/3;background:${p.img ? '#f5f5f5' : bg};">
+      <a href="${basePath}pages/project-detail.html?id=${p.id}" class="project-card" style="background:${p.img ? '#f5f5f5' : bg};">
         ${imgHtml}
         <div class="project-card__overlay"></div>
         <div class="project-card__info">
