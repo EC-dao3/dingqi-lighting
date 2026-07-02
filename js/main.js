@@ -382,7 +382,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const selected = allModels.slice(0, 6);
 
     grid.innerHTML = selected.map(p => `
-      <a href="pages/products.html" class="product-card" style="aspect-ratio:3/4;grid-column:span 1;background:var(--color-gray-100);">
+      <a href="pages/products.html" class="product-card">
         <img class="product-card__img" src="${p.img}" alt="${p.name}" loading="lazy" onerror="this.style.display='none';this.parentElement.style.background='linear-gradient(135deg, #2c2c2c, #1a1a1a)';">
         <div class="product-card__overlay"></div>
         <div class="product-card__info">
