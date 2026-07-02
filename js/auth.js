@@ -287,11 +287,11 @@ const Auth = {
             </button>
             <div class="nav__user-dropdown">
               ${consoleLink}
-              <a href="${loginPath}" onclick="event.preventDefault();Auth.logout()">退出登录</a>
+              <a href="${loginPath}" onclick="event.preventDefault();Auth.logout()">Logout</a>
             </div>
           </div>`;
       } else {
-        el.innerHTML = '<a href="' + loginPath + '" class="nav__login-btn">登录</a>';
+        el.innerHTML = '<a href="' + loginPath + '" class="nav__login-btn">Login</a>';
       }
     });
   }
